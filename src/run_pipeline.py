@@ -53,6 +53,7 @@ from .config import (
     DEFAULT_OUTPUT_DIR,
     DEFAULT_POSE_READY_TEST,
     DEFAULT_POSE_READY_TRAIN,
+    MIN_SAMPLES_PER_TARGET,
     RANDOM_STATE,
     REGRESSION_TARGETS,
     REPR_COMBINED,
@@ -83,10 +84,11 @@ from .held_out import (
     evaluate_held_out_classification,
     evaluate_held_out_regression,
 )
-from .comparison import compare_all_targets
+from .comparison import build_heatmap_tables, compare_all_targets
 from .plotting import (
     plot_confusion_matrices,
     plot_cv_metric_boxplots,
+    plot_comparison_heatmap,
     plot_held_out_summary,
     plot_hyperparameter_distributions,
     plot_pred_vs_actual,
@@ -136,6 +138,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--stats-emb", type=str, default=None,
                    help="Stats for embedding features: comma-separated names or "
                         "preset ('basic', 'moments'). Default: all 11 statistics.")
+    p.add_argument("--save-raw-kinematic-features", action="store_true",
+                   help="Save per-frame kinematic/social metrics before aggregation.")
+    p.add_argument("--raw-kinematic-dir", type=Path, default=None,
+                   help="Root directory to save raw per-frame kinematic features. "
+                        "Defaults to <output_dir>/raw_kinematic_frames/{train|test}.")
     return p.parse_args(argv)
 
 
@@ -154,18 +161,25 @@ def _step1_load_features(args: argparse.Namespace) -> dict[str, pd.DataFrame]:
     if selected_stats_emb is not None:
         logger.info("Selected statistics (embedding): %s", selected_stats_emb)
 
+    raw_kin_base = None
+    if args.save_raw_kinematic_features:
+        raw_kin_base = args.raw_kinematic_dir or (args.output_dir / "raw_kinematic_frames")
+        logger.info("Saving raw kinematic frames to %s", raw_kin_base)
+
     df_train = load_kinematic_features(
         csv_path=args.csv,
         pose_ready_dir=args.pose_ready_train,
         n_jobs=args.n_jobs,
         debug_n=args.debug_n,
         selected_stats=selected_stats_kin,
+        raw_output_dir=(raw_kin_base / "train") if raw_kin_base is not None else None,
     )
     df_test = load_kinematic_features(
         csv_path=args.csv,
         pose_ready_dir=args.pose_ready_test,
         n_jobs=args.n_jobs,
         selected_stats=selected_stats_kin,
+        raw_output_dir=(raw_kin_base / "test") if raw_kin_base is not None else None,
     )
 
     logger.info("  Train (kinematic): %d subjects × %d total columns", df_train.shape[0], df_train.shape[1])
@@ -223,12 +237,26 @@ def _step3_cross_validation(
     target_name: str,
     task_type: str,
     n_jobs: int,
-) -> pd.DataFrame:
+) -> pd.DataFrame | None:
     """Step 3: Repeated nested CV."""
     logger.info("── CV for %s (%s) ──", target_name, task_type)
 
     X, y, df_meta, feat_names = prepare_Xy(df_train, feature_cols, target_name)
     logger.info("  X: %s, y: %s (classes: %s)", X.shape, y.shape, np.unique(y))
+
+    if y.shape[0] < MIN_SAMPLES_PER_TARGET:
+        logger.warning(
+            "Skipping target '%s': %d samples after filtering (< %d minimum).",
+            target_name, y.shape[0], MIN_SAMPLES_PER_TARGET,
+        )
+        return None
+
+    if task_type == "classification" and len(np.unique(y)) < 2:
+        logger.warning(
+            "Skipping target '%s': only one class present after filtering.",
+            target_name,
+        )
+        return None
 
     if task_type == "classification":
         return run_repeated_nested_cv_classification(
@@ -280,11 +308,39 @@ def _step5_comparison(
     return compare_all_targets(all_cv_results, targets_tasks, output_dir)
 
 
+def _filter_targets(
+    df_train: pd.DataFrame,
+    targets_tasks: dict[str, str],
+) -> dict[str, str]:
+    """Filter out targets with too few non-null samples and log why."""
+    kept: dict[str, str] = {}
+    for target_name, task_type in targets_tasks.items():
+        if target_name not in df_train.columns:
+            logger.warning("Skipping target '%s': column not found in training data.", target_name)
+            continue
+
+        non_null = int(df_train[target_name].notna().sum())
+        if non_null < MIN_SAMPLES_PER_TARGET:
+            logger.warning(
+                "Skipping target '%s': %d non-null samples (< %d minimum).",
+                target_name, non_null, MIN_SAMPLES_PER_TARGET,
+            )
+            continue
+
+        kept[target_name] = task_type
+
+    if not kept:
+        raise ValueError("No targets meet the minimum sample requirement.")
+
+    return kept
+
+
 def _step6_plotting(
     all_cv_results: dict[str, dict[str, pd.DataFrame]],
     all_pred_csvs: dict[str, dict[str, Path]],
     held_out_results: dict[str, list[dict]],
     df_comparison: pd.DataFrame,
+    heatmap_tables: dict[str, pd.DataFrame],
     targets_tasks: dict[str, str],
     output_dir: Path,
 ) -> None:
@@ -339,6 +395,17 @@ def _step6_plotting(
             plot_held_out_summary(results, output_dir, task_type,
                                   data_source="Test (held-out)")
 
+    # Comparison heatmaps (best model per representation)
+    for task_type in ("classification", "regression"):
+        df_heatmap = heatmap_tables.get(task_type)
+        if df_heatmap is not None and not df_heatmap.empty:
+            plot_comparison_heatmap(
+                df_heatmap,
+                output_dir,
+                task_type,
+                data_source="Train (CV, best model per rep)",
+            )
+
 
 # ─────────────────────────────────────────────────────────────
 # Main
@@ -387,6 +454,8 @@ def main(argv: list[str] | None = None) -> None:
     for t in REGRESSION_TARGETS:
         targets_tasks[t] = "regression"
 
+    targets_tasks = _filter_targets(df_train, targets_tasks)
+
     # ── Steps 2–4: Per representation × target ───────────────
     all_cv_results: dict[str, dict[str, pd.DataFrame]] = {}  # {target: {rep: df_cv}}
     all_pred_csvs: dict[str, dict[str, Path]] = {}
@@ -420,14 +489,16 @@ def main(argv: list[str] | None = None) -> None:
         # Step 2: Preprocessing report (once per representation)
         _step2_preprocessing_report(df_rep_train, feature_cols, rep_out)
 
-        for target_name in ALL_TARGETS:
-            task_type = targets_tasks[target_name]
+        for target_name, task_type in targets_tasks.items():
 
             # Step 3: Cross-validation
             df_cv = _step3_cross_validation(
                 df_rep_train, feature_cols, rep_out, target_name, task_type,
                 n_jobs=args.n_jobs,
             )
+
+            if df_cv is None:
+                continue
 
             all_cv_results.setdefault(target_name, {})[rep_name] = df_cv
 
@@ -442,10 +513,13 @@ def main(argv: list[str] | None = None) -> None:
     # ── Step 5: Statistical comparison ───────────────────────
     df_comparison = _step5_comparison(all_cv_results, targets_tasks, args.output_dir)
 
+    # ── Step 5b: Heatmap summary tables ──────────────────────
+    heatmap_tables = build_heatmap_tables(all_cv_results, targets_tasks, args.output_dir)
+
     # ── Step 6: Plotting ─────────────────────────────────────
     _step6_plotting(
         all_cv_results, all_pred_csvs, held_out_results,
-        df_comparison, targets_tasks, args.output_dir,
+        df_comparison, heatmap_tables, targets_tasks, args.output_dir,
     )
 
     # ── Step 7: SHAP ─────────────────────────────────────────

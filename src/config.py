@@ -26,24 +26,58 @@ DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "ccnEvaluation" / "results"
 # Prediction targets
 # ─────────────────────────────────────────────────────────────
 
-# Primary outcome (binary classification)
+# Primary outcomes (binary classification)
 TARGET_DIAGNOSIS = "diagnosis"
+TARGET_ADOS_RRB_LEVEL = "ADOS_2_ADOS_G_revised_RRB_level_of_symptoms"
+TARGET_ADOS_SA_LEVEL = "ADOS_2_ADOS_G_REVISED_SA_LEVEL_OF_SYMPTOMS"
 
 # Secondary outcomes (regression)
 TARGET_CSS = "ADOS_G_ADOS_2_TOTAL_score_de_severite"       # Calibrated Severity Score
 TARGET_SA = "ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE"      # Social Affect
 TARGET_RRB = "ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new"  # Restricted & Repetitive Behaviours
 
-CLASSIFICATION_TARGETS = [TARGET_DIAGNOSIS]
-REGRESSION_TARGETS = [TARGET_CSS, TARGET_SA, TARGET_RRB]
+VLDII_TARGETS = [
+    "VLDII_AdSS",
+    "VLDII_MotorSS",
+    "VLDII_gmsVS",
+    "VLDII_fmsVS",
+    "VLDII_SocSS",
+    "VLDII_intVS",
+    "VLDII_plaVS",
+    "VLDII_copVS",
+    "VLDII_DaiSS",
+    "VLDII_perVS",
+    "VLDII_comVS",
+    "VLDII_domVS",
+    "VLDII_ComSS",
+    "VLDII_expVS",
+    "VLDII_recVS",
+]
+
+MSEL_TARGETS = [
+    "MSEL_TOTAL_DQ",
+    "MSEL_FM_DQ",
+    "MSEL_VR_DQ",
+    "MSEL_LR_DQ",
+    "MSEL_LE_DQ",
+    "MSEL_NV_DQ",
+    "MSEL_V_DQ",
+    "MSEL_GM_DQ",
+]
+
+CLASSIFICATION_TARGETS = [TARGET_DIAGNOSIS, TARGET_ADOS_RRB_LEVEL, TARGET_ADOS_SA_LEVEL]
+REGRESSION_TARGETS = [TARGET_CSS, TARGET_SA, TARGET_RRB] + VLDII_TARGETS + MSEL_TARGETS
 ALL_TARGETS = CLASSIFICATION_TARGETS + REGRESSION_TARGETS
+
+MIN_SAMPLES_PER_TARGET = 90
 
 # Clinical / meta columns needed from the CSV (never used as features)
 META_COLS = [
     "uuid", "code", "sujet_id", "diagnosis", "gender", "Ados_2_Age",
     "Ados_2_Module", "ADOS_2_TOTAL",
+    TARGET_ADOS_RRB_LEVEL, TARGET_ADOS_SA_LEVEL,
     TARGET_CSS, TARGET_SA, TARGET_RRB,
-]
+] + VLDII_TARGETS + MSEL_TARGETS
 
 
 # ─────────────────────────────────────────────────────────────

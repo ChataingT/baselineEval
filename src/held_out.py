@@ -71,16 +71,23 @@ def select_best_model_from_cv(
         *summary_dict* contains aggregated metric means.
     """
     if task_type == "classification":
+        if df_cv["auc_roc"].notna().any():
+            metric = "auc_roc"
+            label = "AUC"
+        else:
+            metric = "f1_macro"
+            label = "F1-macro"
+
         summary = (
-            df_cv.groupby("model")["auc_roc"]
+            df_cv.groupby("model")[metric]
             .agg(["mean", "std"])
             .reset_index()
         )
         best_row = summary.loc[summary["mean"].idxmax()]
         best_model = best_row["model"]
         logger.info(
-            "Best classification model: %s (AUC=%.4f ± %.4f)",
-            best_model, best_row["mean"], best_row["std"],
+            "Best classification model: %s (%s=%.4f ± %.4f)",
+            best_model, label, best_row["mean"], best_row["std"],
         )
     else:
         summary = (
@@ -205,6 +212,9 @@ def _compute_shap(
     # For binary classification shap_values may be a list (one array per class)
     if isinstance(sv, list):
         sv = sv[1]  # positive class
+    # For multiclass, SHAP can return a 3D array (n_samples, n_features, n_classes)
+    if isinstance(sv, np.ndarray) and sv.ndim == 3:
+        sv = np.mean(sv, axis=2)
 
     # Save raw SHAP matrix
     pd.DataFrame(sv, columns=feat_names_out).to_csv(
@@ -267,24 +277,44 @@ def evaluate_held_out_classification(
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         pipe.fit(X_train, y_train)
-        y_prob = pipe.predict_proba(X_test)[:, 1]
+        y_prob = pipe.predict_proba(X_test)
         y_pred = pipe.predict(X_test)
 
+    n_classes = len(np.unique(y_train))
+    multiclass = n_classes > 2
+    if multiclass:
+        y_prob_pos = np.full(len(y_test), np.nan, dtype=float)
+    else:
+        y_prob_pos = y_prob[:, 1]
+
     # Metrics
-    try:
-        auc = roc_auc_score(y_test, y_prob)
-    except Exception:
+    if multiclass:
         auc = np.nan
+    else:
+        try:
+            auc = roc_auc_score(y_test, y_prob_pos)
+        except Exception:
+            auc = np.nan
     bacc = balanced_accuracy_score(y_test, y_pred)
     f1 = f1_score(y_test, y_pred, average="macro", zero_division=0)
-    cm = confusion_matrix(y_test, y_pred, labels=[0, 1])
-    tn, fp, fn, tp = cm.ravel() if cm.size == 4 else (0, 0, 0, 0)
-    sensitivity = tp / (tp + fn) if (tp + fn) > 0 else np.nan
-    specificity = tn / (tn + fp) if (tn + fp) > 0 else np.nan
-    accuracy = (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else np.nan
+    if multiclass:
+        labels = sorted(np.unique(y_test))
+    else:
+        labels = [0, 1]
+    cm = confusion_matrix(y_test, y_pred, labels=labels)
+    if cm.size == 4:
+        tn, fp, fn, tp = cm.ravel()
+        sensitivity = tp / (tp + fn) if (tp + fn) > 0 else np.nan
+        specificity = tn / (tn + fp) if (tn + fp) > 0 else np.nan
+        accuracy = (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else np.nan
+        n_correct = int(tp + tn)
+    else:
+        sensitivity = np.nan
+        specificity = np.nan
+        accuracy = float(np.mean(y_pred == y_test)) if len(y_test) > 0 else np.nan
+        n_correct = int(np.sum(y_pred == y_test))
 
     # Binomial CI on accuracy
-    n_correct = int(tp + tn)
     n_total = len(y_test)
     acc_lo, acc_hi = _binomial_ci(n_correct, n_total)
 
@@ -317,14 +347,20 @@ def evaluate_held_out_classification(
         "data_source": "test_held_out",
         "y_true": y_test,
         "y_pred": y_pred,
-        "y_prob_pos": y_prob,
+        "y_prob_pos": y_prob_pos,
     })
     pred_df.to_csv(out / "held_out_predictions.csv", index=False)
 
-    logger.info(
-        "Held-out classification (%s | %s): model=%s AUC=%.3f BAcc=%.3f Acc=%.3f [%.3f, %.3f]",
-        representation, target_name, best_model_id, auc, bacc, accuracy, acc_lo, acc_hi,
-    )
+    if multiclass:
+        logger.info(
+            "Held-out classification (%s | %s): model=%s F1-macro=%.3f BAcc=%.3f Acc=%.3f [%.3f, %.3f]",
+            representation, target_name, best_model_id, f1, bacc, accuracy, acc_lo, acc_hi,
+        )
+    else:
+        logger.info(
+            "Held-out classification (%s | %s): model=%s AUC=%.3f BAcc=%.3f Acc=%.3f [%.3f, %.3f]",
+            representation, target_name, best_model_id, auc, bacc, accuracy, acc_lo, acc_hi,
+        )
 
     # SHAP (skipped for embedding representation)
     if representation != REPR_EMBEDDING:

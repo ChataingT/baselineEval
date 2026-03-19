@@ -28,6 +28,7 @@ from tqdm import tqdm
 
 from .config import (
     BOOL_STAT_TYPES,
+    CLASSIFICATION_TARGETS,
     DEFAULT_CONGRUENT_WINDOW,
     DYADIC_INDIVIDUALS,
     EXCLUDE_TRUNK_COLUMNS,
@@ -699,6 +700,7 @@ def _process_one_subject(
     segment_dirs: list[Path],
     meta_row: pd.Series,
     selected_stats: list[str] | None = None,
+    raw_output_dir: Path | None = None,
 ) -> dict | None:
     """Load all segments for one subject, compute summary statistics."""
     segment_dfs: list[pd.DataFrame] = []
@@ -713,6 +715,11 @@ def _process_one_subject(
 
     # Concatenate all segment frames
     df_all = pd.concat(segment_dfs, ignore_index=True)
+
+    if raw_output_dir is not None:
+        raw_output_dir.mkdir(parents=True, exist_ok=True)
+        raw_path = raw_output_dir / f"{video_id}_frame_metrics.csv.gz"
+        df_all.to_csv(raw_path, index=False, compression="gzip")
 
     # Drop trunk variant columns before computing summary stats
     if EXCLUDE_TRUNK_COLUMNS:
@@ -757,6 +764,7 @@ def load_kinematic_features(
     n_jobs: int = 4,
     debug_n: int | None = None,
     selected_stats: list[str] | None = None,
+    raw_output_dir: Path | None = None,
 ) -> pd.DataFrame:
     """Load raw pose data, compute kinematic + social metrics, return features.
 
@@ -770,6 +778,9 @@ def load_kinematic_features(
         Parallel workers for subject processing.
     debug_n : int or None
         Limit to first N subjects for quick testing.
+    raw_output_dir : Path or None
+        If provided, save per-frame kinematic/social metrics before aggregation
+        as compressed CSV files in this directory.
 
     Returns
     -------
@@ -825,7 +836,13 @@ def load_kinematic_features(
     )
 
     results = Parallel(n_jobs=n_jobs, backend="loky", verbose=0)(
-        delayed(_process_one_subject)(vid, seg_dirs, meta_row, selected_stats)
+        delayed(_process_one_subject)(
+            vid,
+            seg_dirs,
+            meta_row,
+            selected_stats,
+            raw_output_dir,
+        )
         for vid, seg_dirs, meta_row in tqdm(tasks, desc="Computing features")
     )
 
@@ -945,6 +962,8 @@ def prepare_Xy(
     valid_mask = df[target_col].notna()
     if target_col == "diagnosis":
         valid_mask &= df[target_col].isin(["ASD", "TD"])
+    elif target_col in CLASSIFICATION_TARGETS:
+        valid_mask &= df[target_col].astype(str).str.strip().ne("")
     else:
         valid_mask &= pd.to_numeric(df[target_col], errors="coerce").notna()
 
@@ -953,7 +972,7 @@ def prepare_Xy(
     X = df_valid[feature_cols].values.astype(float)
     feature_names = list(feature_cols)
 
-    if target_col == "diagnosis":
+    if target_col in CLASSIFICATION_TARGETS:
         from sklearn.preprocessing import LabelEncoder
         le = LabelEncoder()
         y = le.fit_transform(df_valid[target_col].astype(str).values)
@@ -1186,6 +1205,7 @@ def load_all_representations(
     n_jobs: int = 4,
     debug_n: int | None = None,
     embedding_dir: Path | None = None,
+    raw_output_dir: Path | None = None,
 ) -> dict[str, pd.DataFrame]:
     """Load data for all feature representations.
 
@@ -1195,6 +1215,8 @@ def load_all_representations(
     Motor-only and full-kinematic share the same DataFrame (column filtering
     happens downstream via ``filter_feature_columns``).
     If ``embedding_dir`` is None the embedding representation is omitted.
+    When ``raw_output_dir`` is provided, per-frame kinematic metrics are saved
+    before aggregation.
     """
     logger.info("=" * 65)
     logger.info("Loading kinematic features")
@@ -1205,6 +1227,7 @@ def load_all_representations(
         pose_ready_dir=pose_ready_dir,
         n_jobs=n_jobs,
         debug_n=debug_n,
+        raw_output_dir=raw_output_dir,
     )
 
     result = {

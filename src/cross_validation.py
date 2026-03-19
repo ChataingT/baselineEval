@@ -89,6 +89,8 @@ def _run_one_fold_classification(
     """Run all classification models for one outer fold."""
     X_train, X_test = X[train_idx], X[test_idx]
     y_train, y_test = y[train_idx], y[test_idx]
+    n_classes = len(np.unique(y_train))
+    multiclass = n_classes > 2
 
     inner_cv = StratifiedKFold(
         n_splits=n_inner, shuffle=True, random_state=random_state,
@@ -101,10 +103,11 @@ def _run_one_fold_classification(
         steps = list(preproc.steps) + [("model", est)]
         pipe = Pipeline(steps)
 
+        scoring = "f1_macro" if multiclass else "roc_auc"
         search = RandomizedSearchCV(
             pipe, param_dist,
             n_iter=n_iter,
-            scoring="roc_auc",
+            scoring=scoring,
             cv=inner_cv,
             n_jobs=-1,
             random_state=random_state,
@@ -120,21 +123,37 @@ def _run_one_fold_classification(
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            y_prob = best.predict_proba(X_test)[:, 1]
+            y_prob = best.predict_proba(X_test)
             y_pred = best.predict(X_test)
 
-        try:
-            auc = roc_auc_score(y_test, y_prob)
-        except Exception:
+        if multiclass:
+            y_prob_pos = np.full(len(y_test), np.nan, dtype=float)
+        else:
+            y_prob_pos = y_prob[:, 1]
+
+        if multiclass:
             auc = np.nan
+        else:
+            try:
+                auc = roc_auc_score(y_test, y_prob_pos)
+            except Exception:
+                auc = np.nan
 
         bacc = balanced_accuracy_score(y_test, y_pred)
         f1 = f1_score(y_test, y_pred, average="macro", zero_division=0)
 
-        cm = confusion_matrix(y_test, y_pred, labels=[0, 1])
-        tn, fp, fn, tp = cm.ravel() if cm.size == 4 else (0, 0, 0, 0)
-        sensitivity = tp / (tp + fn) if (tp + fn) > 0 else np.nan
-        specificity = tn / (tn + fp) if (tn + fp) > 0 else np.nan
+        if multiclass:
+            labels = sorted(np.unique(y_test))
+        else:
+            labels = [0, 1]
+        cm = confusion_matrix(y_test, y_pred, labels=labels)
+        if cm.size == 4:
+            tn, fp, fn, tp = cm.ravel()
+            sensitivity = tp / (tp + fn) if (tp + fn) > 0 else np.nan
+            specificity = tn / (tn + fp) if (tn + fp) > 0 else np.nan
+        else:
+            sensitivity = np.nan
+            specificity = np.nan
 
         fold_results.append({
             "repeat": repeat_idx,
@@ -146,7 +165,7 @@ def _run_one_fold_classification(
             "sensitivity": sensitivity,
             "specificity": specificity,
             "best_params": str(search.best_params_),
-            "y_prob": y_prob.tolist(),
+            "y_prob": y_prob_pos.tolist(),
             "y_test": y_test.tolist(),
             "y_pred": y_pred.tolist(),
             "test_indices": test_idx.tolist(),
@@ -369,11 +388,17 @@ def run_repeated_nested_cv_classification(
     logger.info("  CV results: %d rows → %s", len(df_cv), out / "cv_results.csv")
 
     # Log summary
-    summary = df_cv.groupby("model")["auc_roc"].agg(["mean", "std"]).reset_index()
-    summary.columns = ["model", "auc_mean", "auc_std"]
+    if df_cv["auc_roc"].notna().any():
+        metric = "auc_roc"
+        label = "AUC-ROC"
+    else:
+        metric = "f1_macro"
+        label = "F1-macro"
+    summary = df_cv.groupby("model")[metric].agg(["mean", "std"]).reset_index()
+    summary.columns = ["model", f"{metric}_mean", f"{metric}_std"]
     logger.info(
-        "\n── Classification AUC-ROC summary (%s) ──\n%s",
-        target_name, summary.to_string(index=False),
+        "\n── Classification %s summary (%s) ──\n%s",
+        label, target_name, summary.to_string(index=False),
     )
     return df_cv
 

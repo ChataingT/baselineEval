@@ -55,6 +55,10 @@ def plot_roc_curves(
     out = output_dir / "plots" / "classification" / target_name
     out.mkdir(parents=True, exist_ok=True)
 
+    if "y_prob_pos" not in df_preds.columns or not df_preds["y_prob_pos"].notna().any():
+        logger.info("  Skipping ROC curves for %s (no y_prob_pos values)", target_name)
+        return
+
     mean_fpr = np.linspace(0, 1, 200)
     csv_rows = []
 
@@ -126,8 +130,13 @@ def plot_confusion_matrices(
     out = output_dir / "plots" / "classification" / target_name
     out.mkdir(parents=True, exist_ok=True)
 
+    unique_labels = np.unique(df_preds[["y_true", "y_pred"]].values)
+    labels = sorted([int(x) for x in unique_labels])
     if label_names is None:
-        label_names = ["TD", "ASD"]
+        if len(labels) == 2:
+            label_names = ["TD", "ASD"]
+        else:
+            label_names = [str(x) for x in labels]
 
     model_ids = sorted(df_preds["model"].unique())
     ncols = min(len(model_ids), 3)
@@ -141,19 +150,20 @@ def plot_confusion_matrices(
         ax = axes[row][col]
 
         sub = df_preds.loc[df_preds["model"] == model_id]
-        cm = confusion_matrix(sub["y_true"], sub["y_pred"], labels=[0, 1])
+        cm = confusion_matrix(sub["y_true"], sub["y_pred"], labels=labels)
 
         im = ax.imshow(cm, interpolation="nearest", cmap="Blues")
+        ticks = list(range(len(label_names)))
         ax.set(
-            xticks=[0, 1], xticklabels=label_names,
-            yticks=[0, 1], yticklabels=label_names,
+            xticks=ticks, xticklabels=label_names,
+            yticks=ticks, yticklabels=label_names,
             xlabel="Predicted", ylabel="True",
             title=model_id,
         )
 
         thresh = cm.max() / 2
-        for i in range(2):
-            for j in range(2):
+        for i in range(len(label_names)):
+            for j in range(len(label_names)):
                 ax.text(
                     j, i, str(cm[i, j]),
                     ha="center", va="center",
@@ -584,6 +594,67 @@ def plot_representation_comparison(
     fig.savefig(out / "representation_comparison.png", dpi=DPI, bbox_inches="tight")
     plt.close(fig)
     logger.info("  Saved: representation_comparison.png + data CSV")
+
+
+def plot_comparison_heatmap(
+    df_summary: pd.DataFrame,
+    output_dir: Path,
+    task_type: str,
+    data_source: str = "",
+) -> None:
+    """Heatmap summary across targets and representations.
+
+    Expects df_summary columns: target, representation, model, metric, metric_mean.
+    """
+    if df_summary is None or df_summary.empty:
+        return
+
+    out = output_dir / "plots" / "comparison"
+    out.mkdir(parents=True, exist_ok=True)
+
+    df_summary.to_csv(out / f"heatmap_{task_type}_data.csv", index=False)
+
+    targets = df_summary["target"].unique().tolist()
+    reps = df_summary["representation"].unique().tolist()
+    metric = df_summary["metric"].iloc[0] if "metric" in df_summary.columns else "metric"
+
+    pivot = (
+        df_summary.pivot(index="target", columns="representation", values="metric_mean")
+        .reindex(index=targets, columns=reps)
+    )
+
+    cmap = "YlGnBu" if task_type == "classification" else "YlGnBu_r"
+
+    fig_w = max(6, 1.2 * len(reps))
+    fig_h = max(4, 0.4 * len(targets) + 2)
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+    im = ax.imshow(pivot.values, aspect="auto", cmap=cmap)
+
+    ax.set_xticks(range(len(reps)))
+    ax.set_xticklabels(reps, rotation=20, ha="right")
+    ax.set_yticks(range(len(targets)))
+    ax.set_yticklabels(targets, fontsize=8)
+
+    model_lookup = df_summary.set_index(["target", "representation"])["model"]
+
+    for i, target in enumerate(targets):
+        for j, rep in enumerate(reps):
+            val = pivot.loc[target, rep]
+            if pd.isna(val):
+                continue
+            model = model_lookup.get((target, rep), "")
+            ax.text(j, i, f"{val:.3f}\n{model}", ha="center", va="center", fontsize=7)
+
+    ax.set_title(
+        f"Comparison heatmap — {task_type} ({metric})"
+        + (f"\n{data_source}" if data_source else ""),
+    )
+    _clean_ax(ax)
+    fig.colorbar(im, ax=ax, shrink=0.8, label=metric)
+    fig.tight_layout()
+    fig.savefig(out / f"heatmap_{task_type}.png", dpi=DPI, bbox_inches="tight")
+    plt.close(fig)
+    logger.info("  Saved: heatmap_%s.png + data CSV", task_type)
 
 
 # ─────────────────────────────────────────────────────────────

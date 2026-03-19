@@ -28,6 +28,23 @@ from scipy.stats import wilcoxon
 logger = logging.getLogger(__name__)
 
 
+def _pick_classification_metric(cv_results: dict[str, pd.DataFrame]) -> str:
+    """Pick the best available metric for classification comparisons.
+
+    Prefer AUC-ROC when it has any non-NaN values; otherwise fall back to
+    macro F1 for multiclass or degenerate cases.
+    """
+    for df_cv in cv_results.values():
+        if "auc_roc" in df_cv.columns and df_cv["auc_roc"].notna().any():
+            return "auc_roc"
+    for df_cv in cv_results.values():
+        if "f1_macro" in df_cv.columns and df_cv["f1_macro"].notna().any():
+            return "f1_macro"
+    if any("auc_roc" in df_cv.columns for df_cv in cv_results.values()):
+        return "auc_roc"
+    return "f1_macro"
+
+
 def _rank_biserial(stat: float, n: int) -> float:
     """Rank-biserial correlation from the Wilcoxon statistic."""
     if n < 1:
@@ -70,23 +87,38 @@ def compare_representations(
     out.mkdir(parents=True, exist_ok=True)
 
     if task_type == "classification":
-        metric = "auc_roc"
+        metric = _pick_classification_metric(cv_results)
+        higher_better = True
     else:
         metric = "rmse"
+        higher_better = False
 
     # Determine the per-representation best model (or use the forced one)
     scores = {}
     for rep_name, df_cv in cv_results.items():
+        if df_cv.empty or metric not in df_cv.columns:
+            logger.info("  Skipping %s for %s: missing %s", rep_name, target_name, metric)
+            continue
         if best_model is not None:
             df_sub = df_cv.loc[df_cv["model"] == best_model]
         else:
             # Pick model with best mean on the comparison metric
-            agg = df_cv.groupby("model")[metric].mean()
-            if task_type == "classification":
+            agg = df_cv.groupby("model")[metric].mean().dropna()
+            if agg.empty:
+                logger.info("  Skipping %s for %s: no valid %s values", rep_name, target_name, metric)
+                continue
+            if higher_better:
                 chosen = agg.idxmax()
             else:
                 chosen = agg.idxmin()
             df_sub = df_cv.loc[df_cv["model"] == chosen]
+        if df_sub.empty or metric not in df_sub.columns:
+            logger.info("  Skipping %s for %s: no rows for %s", rep_name, target_name, metric)
+            continue
+        df_sub = df_sub.loc[df_sub[metric].notna()]
+        if df_sub.empty:
+            logger.info("  Skipping %s for %s: %s is all NaN", rep_name, target_name, metric)
+            continue
         # Sort to align folds
         df_sub = df_sub.sort_values(["repeat", "fold"]).reset_index(drop=True)
         scores[rep_name] = df_sub[metric].values
@@ -201,3 +233,77 @@ def compare_all_targets(
     df_all.to_csv(combined_path, index=False)
     logger.info("All comparisons → %s", combined_path)
     return df_all
+
+
+def build_heatmap_tables(
+    all_cv_results: dict[str, dict[str, pd.DataFrame]],
+    targets_tasks: dict[str, str],
+    output_dir: Path,
+) -> dict[str, pd.DataFrame]:
+    """Build per-target summary tables for heatmap plotting.
+
+    Returns a dict with keys: "all", "classification", "regression".
+    """
+    rows_all = []
+    rows_best = {"classification": [], "regression": []}
+
+    for target_name, rep_results in all_cv_results.items():
+        task_type = targets_tasks[target_name]
+        if task_type == "classification":
+            metric = _pick_classification_metric(rep_results)
+            higher_better = True
+        else:
+            metric = "rmse"
+            higher_better = False
+
+        for rep_name, df_cv in rep_results.items():
+            if df_cv.empty or metric not in df_cv.columns:
+                continue
+
+            agg = df_cv.groupby("model")[metric].agg(["mean", "std"]).reset_index()
+            agg = agg.loc[agg["mean"].notna()]
+            for _, row in agg.iterrows():
+                rows_all.append({
+                    "target": target_name,
+                    "task_type": task_type,
+                    "representation": rep_name,
+                    "model": row["model"],
+                    "metric": metric,
+                    "metric_mean": float(row["mean"]),
+                    "metric_std": float(row["std"]),
+                })
+
+            if agg.empty:
+                continue
+
+            if higher_better:
+                best_row = agg.loc[agg["mean"].idxmax()]
+            else:
+                best_row = agg.loc[agg["mean"].idxmin()]
+
+            rows_best[task_type].append({
+                "target": target_name,
+                "task_type": task_type,
+                "representation": rep_name,
+                "model": best_row["model"],
+                "metric": metric,
+                "metric_mean": float(best_row["mean"]),
+                "metric_std": float(best_row["std"]),
+            })
+
+    out_dir = output_dir / "comparison"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    df_all = pd.DataFrame(rows_all)
+    df_all.to_csv(out_dir / "heatmap_source_all.csv", index=False)
+    logger.info("Heatmap source (all models) → %s", out_dir / "heatmap_source_all.csv")
+
+    results = {"all": df_all}
+    for task_type, rows in rows_best.items():
+        df_best = pd.DataFrame(rows)
+        out_path = out_dir / f"heatmap_{task_type}_data.csv"
+        df_best.to_csv(out_path, index=False)
+        logger.info("Heatmap source (%s) → %s", task_type, out_path)
+        results[task_type] = df_best
+
+    return results
