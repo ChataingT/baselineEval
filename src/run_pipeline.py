@@ -57,18 +57,27 @@ from .config import (
     RANDOM_STATE,
     REGRESSION_TARGETS,
     REPR_COMBINED,
+    REPR_COMBINED_TEMPORAL,
     REPR_EMBEDDING,
+    REPR_EMBEDDING_TEMPORAL,
     REPR_FULL_KINEMATIC,
+    REPR_FULL_KINEMATIC_TEMPORAL,
     REPR_MOTOR_ONLY,
+    REPR_MOTOR_ONLY_TEMPORAL,
     TARGET_DIAGNOSIS,
+    TEMPORAL_REPRESENTATIONS,
     resolve_stat_selection,
 )
 from .loading import (
     filter_feature_columns,
     get_embedding_feature_columns,
+    get_embedding_temporal_feature_columns,
     get_feature_columns,
+    get_kinematic_temporal_feature_columns,
     load_embedding_features,
+    load_embedding_features_temporal,
     load_kinematic_features,
+    load_kinematic_features_temporal,
     merge_kinematic_embedding,
     prepare_Xy,
 )
@@ -143,6 +152,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--raw-kinematic-dir", type=Path, default=None,
                    help="Root directory to save raw per-frame kinematic features. "
                         "Defaults to <output_dir>/raw_kinematic_frames/{train|test}.")
+    p.add_argument("--temporal-pooling", action="store_true",
+                   help="Add temporal max-pooling representations alongside standard ones. "
+                        "Each recording is split into N_TEMPORAL_SEGMENTS non-overlapping "
+                        "windows; features are max-pooled within each window, then "
+                        "aggregated across windows with mean / max / std.")
+    p.add_argument("--skip-lgbm", action="store_true",
+                   help="Skip LightGBM and run only Lasso / logistic regression. "
+                        "Useful for fast exploratory runs or CPU-only environments.")
     return p.parse_args(argv)
 
 
@@ -212,6 +229,64 @@ def _step1_load_features(args: argparse.Namespace) -> dict[str, pd.DataFrame]:
     return result
 
 
+def _step1_load_features_temporal(args: argparse.Namespace) -> dict[str, pd.DataFrame]:
+    """Step 1 (temporal): Load kinematic + embedding features with temporal max-pooling."""
+    logger.info("═══ Step 1 (temporal): Temporal max-pooling feature extraction ═══")
+
+    df_train = load_kinematic_features_temporal(
+        csv_path=args.csv,
+        pose_ready_dir=args.pose_ready_train,
+        n_jobs=args.n_jobs,
+        debug_n=args.debug_n,
+    )
+    df_test = load_kinematic_features_temporal(
+        csv_path=args.csv,
+        pose_ready_dir=args.pose_ready_test,
+        n_jobs=args.n_jobs,
+    )
+    logger.info(
+        "  Train (temporal kinematic): %d subjects × %d total columns",
+        df_train.shape[0], df_train.shape[1],
+    )
+    logger.info(
+        "  Test  (temporal kinematic): %d subjects × %d total columns",
+        df_test.shape[0], df_test.shape[1],
+    )
+
+    result: dict[str, pd.DataFrame] = {
+        "train_temporal": df_train,
+        "test_temporal":  df_test,
+    }
+
+    embedding_dirs_provided = (
+        args.embedding_dir_train is not None
+        and args.embedding_dir_test is not None
+    )
+    if embedding_dirs_provided and not args.skip_embedding:
+        logger.info("═══ Step 1b (temporal): Temporal embedding feature extraction ═══")
+        df_emb_train = load_embedding_features_temporal(
+            csv_path=args.csv,
+            embedding_dir=args.embedding_dir_train,
+            debug_n=args.debug_n,
+        )
+        df_emb_test = load_embedding_features_temporal(
+            csv_path=args.csv,
+            embedding_dir=args.embedding_dir_test,
+        )
+        logger.info(
+            "  Train (temporal embedding): %d subjects × %d total columns",
+            df_emb_train.shape[0], df_emb_train.shape[1],
+        )
+        logger.info(
+            "  Test  (temporal embedding): %d subjects × %d total columns",
+            df_emb_test.shape[0], df_emb_test.shape[1],
+        )
+        result["emb_train_temporal"] = df_emb_train
+        result["emb_test_temporal"]  = df_emb_test
+
+    return result
+
+
 def _step2_preprocessing_report(
     df_train: pd.DataFrame,
     feature_cols: list[str],
@@ -237,6 +312,7 @@ def _step3_cross_validation(
     target_name: str,
     task_type: str,
     n_jobs: int,
+    skip_lgbm: bool = False,
 ) -> pd.DataFrame | None:
     """Step 3: Repeated nested CV."""
     logger.info("── CV for %s (%s) ──", target_name, task_type)
@@ -260,11 +336,13 @@ def _step3_cross_validation(
 
     if task_type == "classification":
         return run_repeated_nested_cv_classification(
-            X, y, df_meta, feat_names, output_dir, target_name, n_jobs=n_jobs,
+            X, y, df_meta, feat_names, output_dir, target_name,
+            n_jobs=n_jobs, skip_lgbm=skip_lgbm,
         )
     else:
         return run_repeated_nested_cv_regression(
-            X, y, df_meta, feat_names, output_dir, target_name, n_jobs=n_jobs,
+            X, y, df_meta, feat_names, output_dir, target_name,
+            n_jobs=n_jobs, skip_lgbm=skip_lgbm,
         )
 
 
@@ -447,6 +525,18 @@ def main(argv: list[str] | None = None) -> None:
             "(--embedding-dir-train / --embedding-dir-test not provided)."
         )
 
+    # ── Step 1 (temporal): Load temporal max-pooling features ─
+    temporal_data: dict[str, pd.DataFrame] = {}
+    if args.temporal_pooling:
+        temporal_data = _step1_load_features_temporal(args)
+        representations += [REPR_MOTOR_ONLY_TEMPORAL, REPR_FULL_KINEMATIC_TEMPORAL]
+        if "emb_train_temporal" in temporal_data:
+            representations += [REPR_EMBEDDING_TEMPORAL, REPR_COMBINED_TEMPORAL]
+        logger.info(
+            "Temporal pooling enabled — added %d temporal representations.",
+            len([r for r in representations if r in TEMPORAL_REPRESENTATIONS]),
+        )
+
     # Build target → task mapping
     targets_tasks = {}
     for t in CLASSIFICATION_TARGETS:
@@ -478,6 +568,29 @@ def main(argv: list[str] | None = None) -> None:
             )
             emb_cols = get_embedding_feature_columns(df_rep_train)
             feature_cols = kin_cols + emb_cols
+        # ── Temporal representations ──────────────────────────
+        elif rep_name == REPR_EMBEDDING_TEMPORAL:
+            df_rep_train = temporal_data["emb_train_temporal"]
+            df_rep_test  = temporal_data["emb_test_temporal"]
+            feature_cols = get_embedding_temporal_feature_columns(df_rep_train)
+        elif rep_name == REPR_COMBINED_TEMPORAL:
+            df_rep_train = merge_kinematic_embedding(
+                temporal_data["train_temporal"], temporal_data["emb_train_temporal"]
+            )
+            df_rep_test  = merge_kinematic_embedding(
+                temporal_data["test_temporal"], temporal_data["emb_test_temporal"]
+            )
+            kin_cols = filter_feature_columns(
+                get_kinematic_temporal_feature_columns(df_rep_train),
+                REPR_FULL_KINEMATIC_TEMPORAL,
+            )
+            emb_cols = get_embedding_temporal_feature_columns(df_rep_train)
+            feature_cols = kin_cols + emb_cols
+        elif rep_name in (REPR_MOTOR_ONLY_TEMPORAL, REPR_FULL_KINEMATIC_TEMPORAL):
+            df_rep_train = temporal_data["train_temporal"]
+            df_rep_test  = temporal_data["test_temporal"]
+            all_feature_cols = get_kinematic_temporal_feature_columns(df_rep_train)
+            feature_cols = filter_feature_columns(all_feature_cols, rep_name)
         else:
             df_rep_train = df_train
             df_rep_test  = df_test
@@ -494,7 +607,7 @@ def main(argv: list[str] | None = None) -> None:
             # Step 3: Cross-validation
             df_cv = _step3_cross_validation(
                 df_rep_train, feature_cols, rep_out, target_name, task_type,
-                n_jobs=args.n_jobs,
+                n_jobs=args.n_jobs, skip_lgbm=args.skip_lgbm,
             )
 
             if df_cv is None:

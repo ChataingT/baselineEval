@@ -90,6 +90,24 @@ REPR_EMBEDDING = "embedding"
 REPR_COMBINED = "full_kinematic_embedding"
 ALL_REPRESENTATIONS = [REPR_MOTOR_ONLY, REPR_FULL_KINEMATIC, REPR_EMBEDDING, REPR_COMBINED]
 
+# ── Temporal max-pooling representations ─────────────────────
+# Each recording is split into N_TEMPORAL_SEGMENTS non-overlapping windows
+# (window_size = total_frames // N_TEMPORAL_SEGMENTS).  Within each window,
+# features are max-pooled across frames.  The resulting (N, F) matrix is
+# then summarised with mean / max / std across the N windows → 3×F features.
+N_TEMPORAL_SEGMENTS = 35
+
+REPR_MOTOR_ONLY_TEMPORAL     = "motor_only_temporal"
+REPR_FULL_KINEMATIC_TEMPORAL = "full_kinematic_temporal"
+REPR_EMBEDDING_TEMPORAL      = "embedding_temporal"
+REPR_COMBINED_TEMPORAL       = "full_kinematic_embedding_temporal"
+TEMPORAL_REPRESENTATIONS = [
+    REPR_MOTOR_ONLY_TEMPORAL,
+    REPR_FULL_KINEMATIC_TEMPORAL,
+    REPR_EMBEDDING_TEMPORAL,
+    REPR_COMBINED_TEMPORAL,
+]
+
 # ── Motor (individual) metric prefixes ───────────────────────
 # These prefixes identify individual-level kinematics for child and clinician.
 MOTOR_PREFIXES = (
@@ -273,4 +291,9 @@ PALETTE_REPRESENTATIONS = {
     REPR_FULL_KINEMATIC: "#E74C3C",
     REPR_EMBEDDING:      "#9B59B6",
     REPR_COMBINED:       "#E67E22",
+    # Temporal variants use lighter shades of the same hue
+    REPR_MOTOR_ONLY_TEMPORAL:     "#82E0AA",
+    REPR_FULL_KINEMATIC_TEMPORAL: "#F1948A",
+    REPR_EMBEDDING_TEMPORAL:      "#C39BD3",
+    REPR_COMBINED_TEMPORAL:       "#FAD7A0",
 }

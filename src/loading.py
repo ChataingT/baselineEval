@@ -39,9 +39,12 @@ from .config import (
     META_COLS,
     MIN_INTERSECTION_KP,
     MIN_VALID_FRAMES,
+    N_TEMPORAL_SEGMENTS,
     REPR_EMBEDDING,
     REPR_FULL_KINEMATIC,
+    REPR_FULL_KINEMATIC_TEMPORAL,
     REPR_MOTOR_ONLY,
+    REPR_MOTOR_ONLY_TEMPORAL,
     TRUNK_KPS,
     TRUNK_SMOOTH_WINDOW,
     TUKEY_K,
@@ -931,6 +934,13 @@ def filter_feature_columns(
     if representation == REPR_MOTOR_ONLY:
         return [c for c in feature_cols if is_motor_feature(c)]
 
+    # Temporal representations — select columns with the segmax suffix
+    if representation == REPR_FULL_KINEMATIC_TEMPORAL:
+        return [c for c in feature_cols if "__norm__segmax_" in c]
+
+    if representation == REPR_MOTOR_ONLY_TEMPORAL:
+        return [c for c in feature_cols if "__norm__segmax_" in c and is_motor_feature(c)]
+
     raise ValueError(
         f"Cannot filter kinematic columns for representation={representation!r}"
     )
@@ -1247,3 +1257,341 @@ def load_all_representations(
         result[REPR_EMBEDDING] = df_emb
 
     return result
+
+
+# ─────────────────────────────────────────────────────────────
+# Temporal max-pooling aggregation
+# ─────────────────────────────────────────────────────────────
+
+def _temporal_maxpool_array(arr2d: np.ndarray, n_segments: int) -> np.ndarray:
+    """Split a (T, F) frame sequence into n_segments non-overlapping windows
+    and return a (n_segments, F) array of per-window max-pooled values.
+
+    The window size is ``T // n_segments``.  The last window absorbs any
+    remainder frames so that exactly *n_segments* rows are returned.
+
+    Parameters
+    ----------
+    arr2d : np.ndarray, shape (T, F)
+        Full concatenated frame-level feature matrix.
+    n_segments : int
+        Number of temporal windows.
+
+    Returns
+    -------
+    np.ndarray, shape (n_segments, F)
+    """
+    T, F = arr2d.shape
+    window = max(1, T // n_segments)
+    rows: list[np.ndarray] = []
+    with np.errstate(all="ignore"):  # suppress RuntimeWarning for all-NaN windows
+        for i in range(n_segments):
+            start = i * window
+            end = (i + 1) * window if i < n_segments - 1 else T
+            chunk = arr2d[start:end, :]           # (≤window, F)
+            rows.append(np.nanmax(chunk, axis=0)) # (F,) — NaN if whole window is NaN
+    return np.stack(rows, axis=0)                 # (n_segments, F)
+
+
+def _process_one_subject_temporal(
+    video_id: str,
+    segment_dirs: list[Path],
+    meta_row: pd.Series,
+) -> dict | None:
+    """Temporal max-pooling aggregation for one kinematic subject.
+
+    Steps
+    -----
+    1. Load all segments via ``_load_one_segment`` and concatenate.
+    2. Drop trunk columns (``EXCLUDE_TRUNK_COLUMNS``).
+    3. Split concatenated frames into ``N_TEMPORAL_SEGMENTS`` equal windows.
+    4. Max-pool within each window → (N_TEMPORAL_SEGMENTS, N_metrics) matrix.
+    5. Aggregate across windows with mean / max / std →
+       feature names ``{metric}__norm__segmax_{mean|max|std}``.
+    """
+    segment_dfs: list[pd.DataFrame] = []
+    for seg_dir in sorted(segment_dirs):
+        df_seg = _load_one_segment(seg_dir)
+        if df_seg is not None:
+            segment_dfs.append(df_seg)
+
+    if not segment_dfs:
+        logger.debug("No valid segments for %s (temporal)", video_id)
+        return None
+
+    df_all = pd.concat(segment_dfs, ignore_index=True)
+
+    if EXCLUDE_TRUNK_COLUMNS:
+        trunk_cols = [c for c in df_all.columns if c.endswith("_trunk")]
+        trunk_cols += [c for c in df_all.columns if "_trunk_" in c]
+        df_all = df_all.drop(columns=list(set(trunk_cols)), errors="ignore")
+
+    metric_cols = df_all.columns.tolist()
+    T = len(df_all)
+
+    if T < N_TEMPORAL_SEGMENTS:
+        logger.warning(
+            "Subject %s has only %d frames — fewer than N_TEMPORAL_SEGMENTS=%d; skipping.",
+            video_id, T, N_TEMPORAL_SEGMENTS,
+        )
+        return None
+
+    arr = df_all.values.astype(float)                    # (T, N_metrics)
+    mat = _temporal_maxpool_array(arr, N_TEMPORAL_SEGMENTS)  # (35, N_metrics)
+
+    window_size = T // N_TEMPORAL_SEGMENTS
+    logger.debug(
+        "Subject %s: T=%d frames, window_size=%d, segments=%d",
+        video_id, T, window_size, N_TEMPORAL_SEGMENTS,
+    )
+
+    records: dict[str, float] = {}
+    for agg_fn, agg_tag in [
+        (np.nanmean, "mean"),
+        (np.nanmax,  "max"),
+        (np.nanstd,  "std"),
+    ]:
+        agg_vals = agg_fn(mat, axis=0)  # (N_metrics,)
+        for j, col in enumerate(metric_cols):
+            records[f"{col}__norm__segmax_{agg_tag}"] = float(agg_vals[j])
+
+    clinical_cols = [c for c in META_COLS if c in meta_row.index]
+    result = {k: meta_row[k] for k in clinical_cols}
+    result.update(records)
+    return result
+
+
+def load_kinematic_features_temporal(
+    csv_path: Path,
+    pose_ready_dir: Path,
+    n_jobs: int = 4,
+    debug_n: int | None = None,
+) -> pd.DataFrame:
+    """Load kinematic features using temporal max-pooling aggregation.
+
+    Identical to ``load_kinematic_features`` except that the per-subject
+    aggregation uses ``_process_one_subject_temporal`` instead of
+    ``_process_one_subject``.  Feature columns are named
+    ``{metric}__norm__segmax_{mean|max|std}`` instead of
+    ``{metric}__norm__{stat}``.
+
+    Returns
+    -------
+    DataFrame with one row per subject.
+    """
+    meta = pd.read_csv(csv_path)
+    meta = meta[meta["diagnosis"].isin(["ASD", "TD"])].reset_index(drop=True)
+    logger.info("Clinical CSV: %d subjects with ASD/TD diagnosis", len(meta))
+
+    all_segment_dirs = sorted(p for p in pose_ready_dir.iterdir() if p.is_dir())
+    logger.info(
+        "Found %d segment directories in %s", len(all_segment_dirs), pose_ready_dir
+    )
+
+    groups: dict[str, list[Path]] = defaultdict(list)
+    for seg_dir in all_segment_dirs:
+        vid = _video_id_from_segment(seg_dir.name)
+        groups[vid].append(seg_dir)
+
+    tasks: list[tuple[str, list[Path], pd.Series]] = []
+    unmatched: list[str] = []
+    for vid, seg_dirs in sorted(groups.items()):
+        meta_row = _match_video_to_csv(vid, meta)
+        if meta_row is None:
+            unmatched.append(vid)
+            continue
+        tasks.append((vid, seg_dirs, meta_row))
+
+    if unmatched:
+        logger.info(
+            "Skipped %d video IDs (no CSV match): %s%s",
+            len(unmatched),
+            ", ".join(unmatched[:5]),
+            "…" if len(unmatched) > 5 else "",
+        )
+
+    if debug_n is not None:
+        tasks = tasks[:debug_n]
+        logger.info("Debug mode: limited to first %d subjects", debug_n)
+
+    logger.info(
+        "Computing temporal features for %d subjects (n_jobs=%d) …",
+        len(tasks), n_jobs,
+    )
+
+    results = Parallel(n_jobs=n_jobs, backend="loky", verbose=0)(
+        delayed(_process_one_subject_temporal)(vid, seg_dirs, meta_row)
+        for vid, seg_dirs, meta_row in tqdm(tasks, desc="Computing temporal features")
+    )
+
+    rows = [r for r in results if r is not None]
+    n_skipped = len(results) - len(rows)
+    if n_skipped:
+        logger.warning(
+            "Skipped %d subjects (no valid segments or too few frames)", n_skipped
+        )
+
+    df = pd.DataFrame(rows)
+    n_feat = len(get_kinematic_temporal_feature_columns(df))
+    logger.info(
+        "Temporal kinematic matrix: %d subjects × %d feature columns",
+        len(df), n_feat,
+    )
+    return df
+
+
+def _process_one_subject_embedding_temporal(
+    sujet_id: str,
+    prefix: str,
+    seg_dirs: list[Path],
+    meta_row: pd.Series,
+) -> dict | None:
+    """Temporal max-pooling aggregation for one embedding subject.
+
+    Steps
+    -----
+    1. Load all segment CSVs and concatenate (rows = frames, cols = 0..127).
+    2. Split into ``N_TEMPORAL_SEGMENTS`` equal windows.
+    3. Max-pool within each window → (N_TEMPORAL_SEGMENTS, 128) matrix.
+    4. Aggregate across windows with mean / max / std →
+       feature names ``emb_{dim}_segmax_{mean|max|std}``.
+    """
+    seg_dfs: list[pd.DataFrame] = []
+    for seg_dir in seg_dirs:
+        csv_file = seg_dir / "features_lisbet_embedding.csv"
+        if not csv_file.exists():
+            logger.warning("Missing embedding file: %s — skipping segment.", csv_file)
+            continue
+        seg_dfs.append(pd.read_csv(csv_file, index_col=0))
+
+    if not seg_dfs:
+        logger.warning(
+            "All segment files missing for sujet_id=%s (prefix=%s) — skipping.",
+            sujet_id, prefix,
+        )
+        return None
+
+    emb_df = pd.concat(seg_dfs, ignore_index=True)  # (T_total, d)
+    emb_df.columns = emb_df.columns.astype(str)
+    dim_names = emb_df.columns.tolist()
+
+    T = len(emb_df)
+    if T < N_TEMPORAL_SEGMENTS:
+        logger.warning(
+            "sujet_id=%s has only %d embedding frames — fewer than N_TEMPORAL_SEGMENTS=%d; skipping.",
+            sujet_id, T, N_TEMPORAL_SEGMENTS,
+        )
+        return None
+
+    arr = emb_df.values.astype(float)                    # (T, d)
+    mat = _temporal_maxpool_array(arr, N_TEMPORAL_SEGMENTS)  # (35, d)
+
+    window_size = T // N_TEMPORAL_SEGMENTS
+    logger.debug(
+        "Embedding sujet_id=%s: T=%d frames, window_size=%d",
+        sujet_id, T, window_size,
+    )
+
+    clinical_cols = [c for c in META_COLS if c in meta_row.index]
+    record: dict = {k: meta_row[k] for k in clinical_cols if k in meta_row.index}
+
+    for agg_fn, agg_tag in [
+        (np.nanmean, "mean"),
+        (np.nanmax,  "max"),
+        (np.nanstd,  "std"),
+    ]:
+        agg_vals = agg_fn(mat, axis=0)  # (d,)
+        for j, dim in enumerate(dim_names):
+            record[f"emb_{dim}_segmax_{agg_tag}"] = float(agg_vals[j])
+
+    return record
+
+
+def load_embedding_features_temporal(
+    csv_path: Path,
+    embedding_dir: Path,
+    debug_n: int | None = None,
+) -> pd.DataFrame:
+    """Load HumanLISBET embedding features using temporal max-pooling.
+
+    Identical to ``load_embedding_features`` except that aggregation uses
+    temporal windowing rather than global summary statistics.  Feature columns
+    are named ``emb_{dim}_segmax_{mean|max|std}`` yielding
+    ``embedding_dim × 3 = 384`` features for a 128-dimensional encoder.
+
+    Returns
+    -------
+    DataFrame with one row per subject.
+    """
+    embedding_dir = Path(embedding_dir)
+    meta = pd.read_csv(csv_path)
+    meta = meta.dropna(subset=["results_path"])
+    meta = meta[meta["diagnosis"].isin(["ASD", "TD"])].reset_index(drop=True)
+
+    if debug_n is not None:
+        meta = meta.head(debug_n)
+
+    all_seg_dirs = sorted(d for d in embedding_dir.iterdir() if d.is_dir())
+    prefix_to_dirs: dict[str, list[Path]] = {}
+    for seg_dir in all_seg_dirs:
+        prefix = seg_dir.name[:4]
+        prefix_to_dirs.setdefault(prefix, []).append(seg_dir)
+
+    rows = []
+    n_no_csv = 0
+    window_sizes: list[int] = []
+
+    for prefix, seg_dirs in sorted(prefix_to_dirs.items()):
+        meta_row = _match_video_to_csv(prefix, meta)
+        if meta_row is None:
+            n_no_csv += 1
+            continue
+
+        sujet_id = str(meta_row["sujet_id"]).strip()
+
+        # Quick pre-check: count total frames to log window size
+        total_frames = 0
+        for seg_dir in seg_dirs:
+            csv_file = seg_dir / "features_lisbet_embedding.csv"
+            if csv_file.exists():
+                total_frames += sum(1 for _ in open(csv_file)) - 1  # subtract header
+
+        if total_frames >= N_TEMPORAL_SEGMENTS:
+            window_sizes.append(total_frames // N_TEMPORAL_SEGMENTS)
+
+        row = _process_one_subject_embedding_temporal(
+            sujet_id, prefix, seg_dirs, meta_row
+        )
+        if row is not None:
+            rows.append(row)
+
+    if n_no_csv:
+        logger.debug(
+            "%d embedding prefixes had no matching CSV row (likely other split).",
+            n_no_csv,
+        )
+
+    if window_sizes:
+        logger.info(
+            "Embedding temporal window sizes — mean=%.0f  min=%d  max=%d  (N_TEMPORAL_SEGMENTS=%d)",
+            float(np.mean(window_sizes)), int(np.min(window_sizes)),
+            int(np.max(window_sizes)), N_TEMPORAL_SEGMENTS,
+        )
+
+    df = pd.DataFrame(rows)
+    n_emb_cols = len(get_embedding_temporal_feature_columns(df))
+    logger.info(
+        "Temporal embedding DataFrame: %d subjects × %d embedding features",
+        len(df), n_emb_cols,
+    )
+    return df
+
+
+def get_kinematic_temporal_feature_columns(df: pd.DataFrame) -> list[str]:
+    """Return kinematic temporal feature column names (``__norm__segmax_`` pattern)."""
+    return [c for c in df.columns if "__norm__segmax_" in c]
+
+
+def get_embedding_temporal_feature_columns(df: pd.DataFrame) -> list[str]:
+    """Return embedding temporal feature column names (``emb_*_segmax_*`` pattern)."""
+    return [c for c in df.columns if c.startswith("emb_") and "_segmax_" in c]

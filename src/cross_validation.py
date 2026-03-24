@@ -292,6 +292,7 @@ def run_repeated_nested_cv_classification(
     n_iter: int = N_ITER,
     random_state: int = RANDOM_STATE,
     n_jobs: int = 4,
+    skip_lgbm: bool = False,
 ) -> pd.DataFrame:
     """Run 5×10 repeated nested CV for binary classification.
 
@@ -318,6 +319,9 @@ def run_repeated_nested_cv_classification(
     out.mkdir(parents=True, exist_ok=True)
 
     model_defs = build_classification_models(random_state=random_state)
+    if skip_lgbm:
+        model_defs.pop("lgbm", None)
+        logger.info("Skipping LGBM classifier (--skip-lgbm)")
     logger.info(
         "Classification CV: %d models, %d×%d nested CV (%d total outer folds)",
         len(model_defs), n_outer, n_repeats, n_outer * n_repeats,
@@ -416,6 +420,7 @@ def run_repeated_nested_cv_regression(
     n_iter: int = N_ITER,
     random_state: int = RANDOM_STATE,
     n_jobs: int = 4,
+    skip_lgbm: bool = False,
 ) -> pd.DataFrame:
     """Run 5×10 repeated nested CV for regression.
 
@@ -432,6 +437,9 @@ def run_repeated_nested_cv_regression(
     out.mkdir(parents=True, exist_ok=True)
 
     model_defs = build_regression_models(random_state=random_state)
+    if skip_lgbm:
+        model_defs.pop("lgbm", None)
+        logger.info("Skipping LGBM regressor (--skip-lgbm)")
     logger.info(
         "Regression CV: %d models, %d×%d nested CV (%d total outer folds)",
         len(model_defs), n_outer, n_repeats, n_outer * n_repeats,
