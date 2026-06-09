@@ -1,0 +1,427 @@
+14:23:20  ccnEvaluation         INFO     ccnEvaluation prediction pipeline started
+14:23:20  ccnEvaluation         INFO       CSV:           /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/info/child_for_humanlisbet_paper_with_paths_020326.csv
+14:23:20  ccnEvaluation         INFO       Pose (train):  /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/train
+14:23:20  ccnEvaluation         INFO       Pose (test):   /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/test
+14:23:20  ccnEvaluation         INFO       Output:        /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results
+14:23:20  ccnEvaluation         INFO     ═══ Step 1: Feature extraction ═══
+14:23:20  ccnEvaluation.src.loading  INFO     Clinical CSV: 119 subjects with ASD/TD diagnosis
+14:23:31  ccnEvaluation.src.loading  INFO     Found 2974 segment directories in /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/train
+14:23:31  ccnEvaluation.src.loading  INFO     Grouped into 102 video/subject IDs:
+14:23:31  ccnEvaluation.src.loading  INFO       7797_T1a_ADOS1: 6 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       7892_T2a_ADOS: 34 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       7947_T1a_ADOS: 18 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       7953_T1a_ADOS: 18 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       7954_T2a_ADOS: 19 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       7965_T2a_ADOS: 33 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       7978_T1a_ADOS: 33 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8002_T3_ADOS_scaled: 3 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8017_BB_12_15m_ADOS: 28 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8018_T1a_ADOS: 20 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8019_T1a_ADOS: 16 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8031_T1a_ADOS_noncompressed: 34 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8042_T2a_ADOS: 35 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8046_T2a_ADOS_compressed: 25 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8054_ADOS_T2a: 33 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8072_T1a_ADOS: 21 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8073_T1a_ADOS_compressed: 22 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8090_T2a_ADOS: 27 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8100_T2a_ADOS: 12 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8101_T2a_ADOS: 31 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8104_T2a_ADOS: 33 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8121_T2a_ADOS_M1_compressed: 45 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8137_T2a_ADOS_compressed: 31 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8141_T1a_ADOS: 44 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8149_T1a_ADOS_noncompressed: 24 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8154_T1a_ADOS: 41 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8156_T1a_ADOS: 26 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8157_T1a_ADOS: 25 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8158_T1a_ADOS_compressed: 54 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8165_BB_18-21m_ADOS_compressed: 38 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8183_T2a_ADOS: 35 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8185_T1a_ADOS: 17 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8188_T1a_ADOS: 30 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8200_T1a_ADOS_compressed_2: 34 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8204_T1a_ADOS_noncompressed: 22 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8207_T1a_ADOS: 20 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8212_T1a_ADOS: 8 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8216_T1a_ADOS_uncompressed: 28 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8222_T1a_ADOS_compressed: 35 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8244_T1a_ADOS: 25 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8252_BB_18-21m_ADOS_Compressed: 29 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8264_T1a_ADOS_MT: 14 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8288_BB_18-21m_ADOS_compressed: 8 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8294_T1a_CCSA_ADOS: 19 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8295_T1a_ADOS_compressed: 40 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8296_BB_15-18m: 32 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8297_T1a_ADOS: 43 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8298_T2a_ADOS: 15 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8299_T1a_ADOS: 31 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8300_T1a_ADOS_compressed: 18 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8301_T1a_ADOS_Incomplete: 26 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8306_T1a_ADOS_CCSA: 44 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8307_T1a_ADOS_compressed: 36 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8310_T1a_ADOS_noncompressed: 33 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8324_T2a_ADOS_Noncompressed: 11 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8334_T1a_ADOS: 40 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8350_T1a_ADOS: 29 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8355_T1a_ADOS: 20 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8359_T1a_ADOS: 25 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8360_T1a_ADOS: 21 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8372_T1a_ADOS_compressed: 29 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8385_T1a_ADOS_noncompressed: 14 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8387_T1a_ADOS: 27 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8404_T1a_ADOS_NotCompressed: 35 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8420_T1a_ADOS: 40 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8434_T1a_ADOS: 58 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8454_T1a_ADOS_NonCompressed: 30 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8455_T1a_ADOS_Noncompressed: 26 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8462_T1a_ADOS: 25 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8488_T1a_ADOS: 23 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8492_T1a_ADOS_NonCompressed: 20 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8529_T1a_ADOS_Noncompressed: 37 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8561_T1a_ADOS: 26 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       8577_T1a_ADOS: 30 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V001: 30 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V002: 34 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V003: 23 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V004: 22 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V005: 24 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V007: 28 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V008: 35 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V009: 22 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V010: 30 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V011: 46 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V012: 37 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V013: 35 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V014: 34 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V015: 14 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V016: 35 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V017: 25 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V018: 51 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V019: 38 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V020: 39 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V021: 51 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V022: 37 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V023: 41 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V024: 19 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V025: 35 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V026: 44 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V027: 34 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V028: 34 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO       V029: 40 segment(s)
+14:23:31  ccnEvaluation.src.loading  INFO     Computing features for 102 subjects (n_jobs=16) …
+Computing features:   0%|          | 0/102 [00:00<?, ?it/s]Computing features:  31%|███▏      | 32/102 [00:16<00:35,  1.98it/s]/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:90: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:91: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+Computing features:  47%|████▋     | 48/102 [01:14<01:38,  1.82s/it]Computing features:  63%|██████▎   | 64/102 [01:55<01:19,  2.10s/it]/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:90: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:91: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+Computing features:  78%|███████▊  | 80/102 [02:37<00:50,  2.28s/it]Computing features:  94%|█████████▍| 96/102 [03:15<00:13,  2.30s/it]Computing features: 100%|██████████| 102/102 [03:15<00:00,  1.91s/it]
+14:28:36  ccnEvaluation.src.loading  INFO     Feature matrix: 102 subjects × 563 feature columns
+14:28:36  ccnEvaluation.src.loading  INFO     Clinical CSV: 119 subjects with ASD/TD diagnosis
+14:28:36  ccnEvaluation.src.loading  INFO     Found 452 segment directories in /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/test
+14:28:36  ccnEvaluation.src.loading  INFO     Grouped into 17 video/subject IDs:
+14:28:36  ccnEvaluation.src.loading  INFO       7772_T2a_ADOS: 27 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8029_T1a_ADOS: 35 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8075_T2a_ADOS: 29 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8117_T2a_ADOS: 21 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8127_T1a_ADOS: 41 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8146_T1a_ADOS: 6 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8187_T2a_ADOS_M1: 25 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8211_T1a_ADOS_compressed: 22 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8225_T1a_ADOS: 22 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8234_BB_18-21m_ADOS_compressed: 26 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8249_T1a_ADOS: 12 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8253_T1a_ADOS: 24 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8256_T1a_ADOS: 33 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8279_T1a_ADOS: 32 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8311_T2a_ADOS: 30 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8318_T1a_ADOS: 41 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO       8378_T1a_ADOS: 26 segment(s)
+14:28:36  ccnEvaluation.src.loading  INFO     Computing features for 17 subjects (n_jobs=16) …
+Computing features:   0%|          | 0/17 [00:00<?, ?it/s]Computing features: 100%|██████████| 17/17 [00:00<00:00, 23097.88it/s]
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:90: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:91: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+14:29:59  ccnEvaluation.src.loading  INFO     Feature matrix: 17 subjects × 563 feature columns
+14:29:59  ccnEvaluation         INFO       Train (kinematic): 102 × 574
+14:29:59  ccnEvaluation         INFO       Test  (kinematic): 17 × 574
+14:29:59  ccnEvaluation         INFO     ═══ Step 1b: Embedding feature extraction ═══
+14:34:33  ccnEvaluation.src.loading  INFO     Embedding DataFrame: 102 subjects × 1408 embedding features
+14:35:15  ccnEvaluation.src.loading  INFO     Embedding DataFrame: 17 subjects × 1408 embedding features
+14:35:15  ccnEvaluation         INFO       Train (embedding): 102 × 1419
+14:35:15  ccnEvaluation         INFO       Test  (embedding): 17 × 1419
+14:35:15  ccnEvaluation         INFO     ═══ Representation: motor_only ═══
+14:35:15  ccnEvaluation         INFO       Features for motor_only: 508 columns
+14:35:15  ccnEvaluation         INFO     ═══ Step 2: Preprocessing report ═══
+14:35:15  ccnEvaluation.src.preprocessing  INFO     Feature selection (full dataset): 508 features → 279 kept (4 missingness, 9 near-zero-var, 216 correlated)
+14:35:15  ccnEvaluation.src.preprocessing  INFO     Feature selection report → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/feature_selection_report.csv
+14:35:15  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance data → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/pca_explained_variance.csv
+14:35:16  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance plot → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/pca_explained_variance.png
+14:35:16  ccnEvaluation         INFO     ── CV for diagnosis (classification) ──
+14:35:16  ccnEvaluation         INFO       X: (102, 508), y: (102,) (classes: [0 1])
+14:35:20  ccnEvaluation.src.cross_validation  INFO     Classification CV: 2 models, 5×10 nested CV (50 total outer folds)
+14:38:43  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+14:38:43  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/classification/diagnosis/cv_results.csv
+14:38:43  ccnEvaluation.src.cross_validation  INFO     
+── Classification AUC-ROC summary (diagnosis) ──
+model  auc_mean  auc_std
+lasso  0.798532 0.094735
+ lgbm  0.747606 0.114193
+14:38:43  ccnEvaluation         INFO     ── Held-out for diagnosis (classification | motor_only) ──
+14:38:43  ccnEvaluation.src.held_out  INFO     Best classification model: lasso (AUC=0.7985 ± 0.0947)
+14:38:45  ccnEvaluation.src.held_out  INFO     Held-out classification (motor_only | diagnosis): model=lasso AUC=0.857 BAcc=0.686 Acc=0.706 [0.440, 0.897]
+14:38:53  ccnEvaluation.src.plotting  INFO       Saved: shap_bar_top20.png and shap_beeswarm_top20.png
+14:38:53  ccnEvaluation.src.held_out  INFO     SHAP saved → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/held_out/classification/diagnosis/shap
+14:38:53  ccnEvaluation         INFO     ── CV for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression) ──
+14:38:53  ccnEvaluation         INFO       X: (102, 508), y: (102,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  8.  9. 10.])
+14:38:53  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+14:41:02  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+14:41:02  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/regression/ADOS_G_ADOS_2_TOTAL_score_de_severite/cv_results.csv
+14:41:02  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_G_ADOS_2_TOTAL_score_de_severite) ──
+model     rmse       r2  spearman_r
+lasso 2.884710 0.247356    0.545367
+ lgbm 2.943511 0.211013    0.509370
+14:41:02  ccnEvaluation         INFO     ── Held-out for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression | motor_only) ──
+14:41:02  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.8847 ± 0.2868)
+14:41:03  ccnEvaluation.src.held_out  INFO     Held-out regression (motor_only | ADOS_G_ADOS_2_TOTAL_score_de_severite): model=lasso RMSE=2.859 [1.896, 3.760] R²=0.335 [-0.194, 0.672] ρ=0.527
+14:41:06  ccnEvaluation.src.plotting  INFO       Saved: shap_bar_top20.png and shap_beeswarm_top20.png
+14:41:06  ccnEvaluation.src.held_out  INFO     SHAP saved → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/held_out/regression/ADOS_G_ADOS_2_TOTAL_score_de_severite/shap
+14:41:06  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression) ──
+14:41:06  ccnEvaluation         INFO       X: (102, 508), y: (102,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  9. 10.])
+14:41:06  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+14:43:15  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+14:43:16  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/regression/ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE/cv_results.csv
+14:43:16  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE) ──
+model     rmse       r2  spearman_r
+lasso 2.612904 0.269456    0.533007
+ lgbm 2.628221 0.259623    0.522984
+14:43:16  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression | motor_only) ──
+14:43:16  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.6129 ± 0.2860)
+14:43:17  ccnEvaluation.src.held_out  INFO     Held-out regression (motor_only | ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE): model=lasso RMSE=2.496 [1.468, 3.479] R²=0.243 [-0.432, 0.694] ρ=0.565
+14:43:20  ccnEvaluation.src.plotting  INFO       Saved: shap_bar_top20.png and shap_beeswarm_top20.png
+14:43:20  ccnEvaluation.src.held_out  INFO     SHAP saved → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/held_out/regression/ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE/shap
+14:43:20  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression) ──
+14:43:20  ccnEvaluation         INFO       X: (102, 508), y: (102,) (classes: [ 1.  5.  6.  7.  8.  9. 10.])
+14:43:20  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+14:45:30  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+14:45:30  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/regression/ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new/cv_results.csv
+14:45:30  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new) ──
+model     rmse       r2  spearman_r
+lasso 2.910359 0.138765    0.482464
+ lgbm 2.991191 0.081291    0.452337
+14:45:30  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression | motor_only) ──
+14:45:30  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.9104 ± 0.3527)
+14:45:32  ccnEvaluation.src.held_out  INFO     Held-out regression (motor_only | ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new): model=lasso RMSE=3.050 [2.050, 3.880] R²=0.344 [-0.108, 0.593] ρ=0.566
+14:45:36  ccnEvaluation.src.plotting  INFO       Saved: shap_bar_top20.png and shap_beeswarm_top20.png
+14:45:36  ccnEvaluation.src.held_out  INFO     SHAP saved → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/held_out/regression/ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new/shap
+14:45:36  ccnEvaluation         INFO     ═══ Representation: full_kinematic ═══
+14:45:36  ccnEvaluation         INFO       Features for full_kinematic: 563 columns
+14:45:36  ccnEvaluation         INFO     ═══ Step 2: Preprocessing report ═══
+14:45:36  ccnEvaluation.src.preprocessing  INFO     Feature selection (full dataset): 563 features → 324 kept (5 missingness, 9 near-zero-var, 225 correlated)
+14:45:36  ccnEvaluation.src.preprocessing  INFO     Feature selection report → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/feature_selection_report.csv
+14:45:36  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance data → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/pca_explained_variance.csv
+14:45:37  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance plot → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/pca_explained_variance.png
+14:45:37  ccnEvaluation         INFO     ── CV for diagnosis (classification) ──
+14:45:37  ccnEvaluation         INFO       X: (102, 563), y: (102,) (classes: [0 1])
+14:45:37  ccnEvaluation.src.cross_validation  INFO     Classification CV: 2 models, 5×10 nested CV (50 total outer folds)
+14:49:05  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+14:49:05  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/classification/diagnosis/cv_results.csv
+14:49:05  ccnEvaluation.src.cross_validation  INFO     
+── Classification AUC-ROC summary (diagnosis) ──
+model  auc_mean  auc_std
+lasso  0.780220 0.096211
+ lgbm  0.756531 0.110569
+14:49:05  ccnEvaluation         INFO     ── Held-out for diagnosis (classification | full_kinematic) ──
+14:49:05  ccnEvaluation.src.held_out  INFO     Best classification model: lasso (AUC=0.7802 ± 0.0962)
+14:49:07  ccnEvaluation.src.held_out  INFO     Held-out classification (full_kinematic | diagnosis): model=lasso AUC=0.843 BAcc=0.686 Acc=0.706 [0.440, 0.897]
+14:49:11  ccnEvaluation.src.plotting  INFO       Saved: shap_bar_top20.png and shap_beeswarm_top20.png
+14:49:11  ccnEvaluation.src.held_out  INFO     SHAP saved → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/held_out/classification/diagnosis/shap
+14:49:11  ccnEvaluation         INFO     ── CV for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression) ──
+14:49:11  ccnEvaluation         INFO       X: (102, 563), y: (102,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  8.  9. 10.])
+14:49:11  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+14:51:33  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+14:51:33  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/regression/ADOS_G_ADOS_2_TOTAL_score_de_severite/cv_results.csv
+14:51:33  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_G_ADOS_2_TOTAL_score_de_severite) ──
+model     rmse       r2  spearman_r
+lasso 2.823340 0.278841    0.603075
+ lgbm 2.706154 0.333517    0.613544
+14:51:33  ccnEvaluation         INFO     ── Held-out for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression | full_kinematic) ──
+14:51:33  ccnEvaluation.src.held_out  INFO     Best regression model: lgbm (RMSE=2.7062 ± 0.3796)
+14:51:34  ccnEvaluation.src.held_out  INFO     Held-out regression (full_kinematic | ADOS_G_ADOS_2_TOTAL_score_de_severite): model=lgbm RMSE=2.787 [2.029, 3.416] R²=0.368 [-0.092, 0.637] ρ=0.638
+14:51:38  ccnEvaluation.src.plotting  INFO       Saved: shap_bar_top20.png and shap_beeswarm_top20.png
+14:51:38  ccnEvaluation.src.held_out  INFO     SHAP saved → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/held_out/regression/ADOS_G_ADOS_2_TOTAL_score_de_severite/shap
+14:51:38  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression) ──
+14:51:38  ccnEvaluation         INFO       X: (102, 563), y: (102,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  9. 10.])
+14:51:38  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+14:54:01  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+14:54:01  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/regression/ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE/cv_results.csv
+14:54:01  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE) ──
+model     rmse       r2  spearman_r
+lasso 2.561705 0.296149    0.568954
+ lgbm 2.507043 0.319954    0.566276
+14:54:01  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression | full_kinematic) ──
+14:54:01  ccnEvaluation.src.held_out  INFO     Best regression model: lgbm (RMSE=2.5070 ± 0.2832)
+14:54:02  ccnEvaluation.src.held_out  INFO     Held-out regression (full_kinematic | ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE): model=lgbm RMSE=2.647 [1.919, 3.386] R²=0.149 [-0.934, 0.548] ρ=0.610
+14:54:06  ccnEvaluation.src.plotting  INFO       Saved: shap_bar_top20.png and shap_beeswarm_top20.png
+14:54:06  ccnEvaluation.src.held_out  INFO     SHAP saved → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/held_out/regression/ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE/shap
+14:54:06  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression) ──
+14:54:07  ccnEvaluation         INFO       X: (102, 563), y: (102,) (classes: [ 1.  5.  6.  7.  8.  9. 10.])
+14:54:07  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+14:56:30  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+14:56:31  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/regression/ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new/cv_results.csv
+14:56:31  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new) ──
+model     rmse       r2  spearman_r
+lasso 2.926591 0.126821    0.465425
+ lgbm 2.887532 0.127315    0.510737
+14:56:31  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression | full_kinematic) ──
+14:56:31  ccnEvaluation.src.held_out  INFO     Best regression model: lgbm (RMSE=2.8875 ± 0.3527)
+14:56:32  ccnEvaluation.src.held_out  INFO     Held-out regression (full_kinematic | ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new): model=lgbm RMSE=2.976 [1.957, 3.913] R²=0.375 [0.034, 0.624] ρ=0.594
+14:56:35  ccnEvaluation.src.plotting  INFO       Saved: shap_bar_top20.png and shap_beeswarm_top20.png
+14:56:35  ccnEvaluation.src.held_out  INFO     SHAP saved → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/held_out/regression/ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new/shap
+14:56:35  ccnEvaluation         INFO     ═══ Representation: embedding ═══
+14:56:35  ccnEvaluation         INFO       Features for embedding: 1408 columns
+14:56:35  ccnEvaluation         INFO     ═══ Step 2: Preprocessing report ═══
+14:56:37  ccnEvaluation.src.preprocessing  INFO     Feature selection (full dataset): 1408 features → 1127 kept (0 missingness, 0 near-zero-var, 281 correlated)
+14:56:37  ccnEvaluation.src.preprocessing  INFO     Feature selection report → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/feature_selection_report.csv
+14:56:37  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance data → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/pca_explained_variance.csv
+14:56:38  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance plot → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/pca_explained_variance.png
+14:56:38  ccnEvaluation         INFO     ── CV for diagnosis (classification) ──
+14:56:38  ccnEvaluation         INFO       X: (102, 1408), y: (102,) (classes: [0 1])
+14:56:38  ccnEvaluation.src.cross_validation  INFO     Classification CV: 2 models, 5×10 nested CV (50 total outer folds)
+15:06:05  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+15:06:06  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/classification/diagnosis/cv_results.csv
+15:06:06  ccnEvaluation.src.cross_validation  INFO     
+── Classification AUC-ROC summary (diagnosis) ──
+model  auc_mean  auc_std
+lasso  0.706387 0.105584
+ lgbm  0.739084 0.106702
+15:06:06  ccnEvaluation         INFO     ── Held-out for diagnosis (classification | embedding) ──
+15:06:06  ccnEvaluation.src.held_out  INFO     Best classification model: lgbm (AUC=0.7391 ± 0.1067)
+15:06:07  ccnEvaluation.src.held_out  INFO     Held-out classification (embedding | diagnosis): model=lgbm AUC=0.786 BAcc=0.614 Acc=0.647 [0.383, 0.858]
+15:06:07  ccnEvaluation         INFO     ── CV for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression) ──
+15:06:07  ccnEvaluation         INFO       X: (102, 1408), y: (102,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  8.  9. 10.])
+15:06:07  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+15:12:36  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+15:12:36  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/regression/ADOS_G_ADOS_2_TOTAL_score_de_severite/cv_results.csv
+15:12:36  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_G_ADOS_2_TOTAL_score_de_severite) ──
+model     rmse        r2  spearman_r
+lasso 3.451144 -0.092171    0.288091
+ lgbm 3.018421  0.172871    0.471675
+15:12:36  ccnEvaluation         INFO     ── Held-out for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression | embedding) ──
+15:12:36  ccnEvaluation.src.held_out  INFO     Best regression model: lgbm (RMSE=3.0184 ± 0.3699)
+15:12:37  ccnEvaluation.src.held_out  INFO     Held-out regression (embedding | ADOS_G_ADOS_2_TOTAL_score_de_severite): model=lgbm RMSE=2.944 [2.114, 3.824] R²=0.295 [-0.190, 0.551] ρ=0.499
+15:12:37  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression) ──
+15:12:37  ccnEvaluation         INFO       X: (102, 1408), y: (102,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  9. 10.])
+15:12:37  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+15:19:03  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+15:19:03  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/regression/ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE/cv_results.csv
+15:19:03  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE) ──
+model     rmse        r2  spearman_r
+lasso 3.157565 -0.064322    0.133591
+ lgbm 2.881851  0.108663    0.379997
+15:19:03  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression | embedding) ──
+15:19:03  ccnEvaluation.src.held_out  INFO     Best regression model: lgbm (RMSE=2.8819 ± 0.3210)
+15:19:05  ccnEvaluation.src.held_out  INFO     Held-out regression (embedding | ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE): model=lgbm RMSE=2.551 [1.855, 3.208] R²=0.210 [-0.276, 0.468] ρ=0.492
+15:19:05  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression) ──
+15:19:06  ccnEvaluation         INFO       X: (102, 1408), y: (102,) (classes: [ 1.  5.  6.  7.  8.  9. 10.])
+15:19:06  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+/home/shares/schaerm/schaer2/thibaut/humanlisbet/lisbet_venv/lib/python3.12/site-packages/joblib/externals/loky/process_executor.py:782: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+15:25:30  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+15:25:31  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/regression/ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new/cv_results.csv
+15:25:31  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new) ──
+model     rmse        r2  spearman_r
+lasso 3.172557 -0.015073    0.190278
+ lgbm 2.963776  0.100153    0.467202
+15:25:31  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression | embedding) ──
+15:25:31  ccnEvaluation.src.held_out  INFO     Best regression model: lgbm (RMSE=2.9638 ± 0.3603)
+15:25:33  ccnEvaluation.src.held_out  INFO     Held-out regression (embedding | ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new): model=lgbm RMSE=3.185 [2.321, 3.880] R²=0.284 [-0.344, 0.529] ρ=0.489
+15:25:33  ccnEvaluation         INFO     ═══ Step 5: Statistical comparison ═══
+15:25:33  ccnEvaluation.src.comparison  INFO       embedding vs full_kinematic (diagnosis, auc_roc): W=364.0, p=0.0216 (p_corr=0.0648), r=0.381 
+15:25:33  ccnEvaluation.src.comparison  INFO       embedding vs motor_only (diagnosis, auc_roc): W=292.0, p=0.0014 (p_corr=0.0043), r=0.523 ***
+15:25:33  ccnEvaluation.src.comparison  INFO       full_kinematic vs motor_only (diagnosis, auc_roc): W=304.5, p=0.0162 (p_corr=0.0486), r=0.412 ***
+15:25:33  ccnEvaluation.src.comparison  INFO       Saved: /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/comparison/diagnosis/comparison_results.csv
+15:25:33  ccnEvaluation.src.comparison  INFO       embedding vs full_kinematic (ADOS_G_ADOS_2_TOTAL_score_de_severite, rmse): W=210.0, p=0.0000 (p_corr=0.0000), r=0.671 ***
+15:25:33  ccnEvaluation.src.comparison  INFO       embedding vs motor_only (ADOS_G_ADOS_2_TOTAL_score_de_severite, rmse): W=384.0, p=0.0137 (p_corr=0.0411), r=0.398 ***
+15:25:33  ccnEvaluation.src.comparison  INFO       full_kinematic vs motor_only (ADOS_G_ADOS_2_TOTAL_score_de_severite, rmse): W=250.0, p=0.0001 (p_corr=0.0003), r=0.608 ***
+15:25:33  ccnEvaluation.src.comparison  INFO       Saved: /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/comparison/ADOS_G_ADOS_2_TOTAL_score_de_severite/comparison_results.csv
+15:25:33  ccnEvaluation.src.comparison  INFO       embedding vs full_kinematic (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE, rmse): W=119.0, p=0.0000 (p_corr=0.0000), r=0.813 ***
+15:25:33  ccnEvaluation.src.comparison  INFO       embedding vs motor_only (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE, rmse): W=182.0, p=0.0000 (p_corr=0.0000), r=0.715 ***
+15:25:33  ccnEvaluation.src.comparison  INFO       full_kinematic vs motor_only (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE, rmse): W=383.0, p=0.0133 (p_corr=0.0399), r=0.399 ***
+15:25:33  ccnEvaluation.src.comparison  INFO       Saved: /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/comparison/ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE/comparison_results.csv
+15:25:33  ccnEvaluation.src.comparison  INFO       embedding vs full_kinematic (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new, rmse): W=486.0, p=0.1460 (p_corr=0.4381), r=0.238 
+15:25:33  ccnEvaluation.src.comparison  INFO       embedding vs motor_only (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new, rmse): W=500.0, p=0.1877 (p_corr=0.5631), r=0.216 
+15:25:33  ccnEvaluation.src.comparison  INFO       full_kinematic vs motor_only (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new, rmse): W=609.0, p=0.7888 (p_corr=1.0000), r=0.045 
+15:25:34  ccnEvaluation.src.comparison  INFO       Saved: /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/comparison/ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new/comparison_results.csv
+15:25:35  ccnEvaluation.src.comparison  INFO     All comparisons → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/comparison/all_comparison_results.csv
+15:25:35  ccnEvaluation         INFO     ═══ Step 6: Plotting ═══
+15:25:36  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:25:37  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:25:38  ccnEvaluation.src.plotting  INFO       Saved: roc_curves.png + data CSV
+15:25:39  ccnEvaluation.src.plotting  INFO       Saved: confusion_matrices.png + data CSV
+15:25:40  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:25:41  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:25:42  ccnEvaluation.src.plotting  INFO       Saved: roc_curves.png + data CSV
+15:25:42  ccnEvaluation.src.plotting  INFO       Saved: confusion_matrices.png + data CSV
+15:25:44  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:25:46  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:25:46  ccnEvaluation.src.plotting  INFO       Saved: roc_curves.png + data CSV
+15:25:47  ccnEvaluation.src.plotting  INFO       Saved: confusion_matrices.png + data CSV
+15:25:47  ccnEvaluation.src.plotting  INFO       Saved: representation_comparison.png + data CSV
+15:25:48  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:25:50  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:25:51  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+15:25:52  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+15:25:53  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:25:54  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:25:58  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+15:26:00  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+15:26:00  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:26:02  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:26:03  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+15:26:04  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+15:26:04  ccnEvaluation.src.plotting  INFO       Saved: representation_comparison.png + data CSV
+15:26:05  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:26:08  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:26:10  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+15:26:11  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+15:26:12  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:26:15  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:26:15  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+15:26:17  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+15:26:17  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:26:19  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:26:20  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+15:26:21  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+15:26:22  ccnEvaluation.src.plotting  INFO       Saved: representation_comparison.png + data CSV
+15:26:22  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:26:24  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:26:25  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+15:26:27  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+15:26:29  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:26:31  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:26:35  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+15:26:36  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+15:26:36  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+15:26:38  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+15:26:39  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+15:26:41  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+15:26:42  ccnEvaluation.src.plotting  INFO       Saved: representation_comparison.png + data CSV
+15:26:44  ccnEvaluation.src.plotting  INFO       Saved: held_out_summary_classification.png + data CSV
+15:26:45  ccnEvaluation.src.plotting  INFO       Saved: held_out_summary_regression.png + data CSV
+15:26:45  ccnEvaluation         INFO     ═══ Step 7: SHAP — computed inside held-out evaluation ═══
+15:26:45  ccnEvaluation         INFO     Pipeline completed in 3805.7 s (63.4 min)
+SLURM job 7264085 finished with exit code 0

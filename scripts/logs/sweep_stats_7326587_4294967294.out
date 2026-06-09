@@ -1,0 +1,3 @@
+--stats-kin mean,std,kurtosis,skewness  --stats-emb mean,std → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results_stats_extended_target
+/home/shares/schaerm/schaer2/thibaut/humanlisbet/lisbet_venv/bin/python: Error while finding module specification for 'ccnEvaluation.src.run_pipeline' (ModuleNotFoundError: No module named 'ccnEvaluation')
+SLURM job 7326587 task  finished with exit code 1

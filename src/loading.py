@@ -929,7 +929,9 @@ def filter_feature_columns(
         feature_cols = [c for c in feature_cols if not _is_trunk_variant(c)]
 
     if representation == REPR_FULL_KINEMATIC:
+        # only social
         return feature_cols  # motor + social = all
+        # return [c for c in feature_cols if is_social_feature(c)]
 
     if representation == REPR_MOTOR_ONLY:
         return [c for c in feature_cols if is_motor_feature(c)]

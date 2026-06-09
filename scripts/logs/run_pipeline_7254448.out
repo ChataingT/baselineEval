@@ -1,0 +1,169 @@
+09:03:44  ccnEvaluation         INFO     ccnEvaluation prediction pipeline started
+09:03:44  ccnEvaluation         INFO       CSV:           /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/info/child_for_humanlisbet_paper_with_paths_020326.csv
+09:03:44  ccnEvaluation         INFO       Pose (train):  /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/train
+09:03:44  ccnEvaluation         INFO       Pose (test):   /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/test
+09:03:44  ccnEvaluation         INFO       Output:        /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results
+09:03:44  ccnEvaluation         INFO     ═══ Step 1: Feature extraction ═══
+09:03:44  ccnEvaluation.src.loading  INFO     Clinical CSV: 119 subjects with ASD/TD diagnosis
+09:03:45  ccnEvaluation.src.loading  INFO     Found 2974 segment directories in /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/train
+09:03:45  ccnEvaluation.src.loading  INFO     Grouped into 102 video/subject IDs:
+09:03:45  ccnEvaluation.src.loading  INFO       7797_T1a_ADOS1: 6 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       7892_T2a_ADOS: 34 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       7947_T1a_ADOS: 18 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       7953_T1a_ADOS: 18 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       7954_T2a_ADOS: 19 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       7965_T2a_ADOS: 33 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       7978_T1a_ADOS: 33 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8002_T3_ADOS_scaled: 3 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8017_BB_12_15m_ADOS: 28 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8018_T1a_ADOS: 20 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8019_T1a_ADOS: 16 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8031_T1a_ADOS_noncompressed: 34 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8042_T2a_ADOS: 35 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8046_T2a_ADOS_compressed: 25 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8054_ADOS_T2a: 33 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8072_T1a_ADOS: 21 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8073_T1a_ADOS_compressed: 22 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8090_T2a_ADOS: 27 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8100_T2a_ADOS: 12 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8101_T2a_ADOS: 31 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8104_T2a_ADOS: 33 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8121_T2a_ADOS_M1_compressed: 45 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8137_T2a_ADOS_compressed: 31 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8141_T1a_ADOS: 44 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8149_T1a_ADOS_noncompressed: 24 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8154_T1a_ADOS: 41 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8156_T1a_ADOS: 26 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8157_T1a_ADOS: 25 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8158_T1a_ADOS_compressed: 54 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8165_BB_18-21m_ADOS_compressed: 38 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8183_T2a_ADOS: 35 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8185_T1a_ADOS: 17 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8188_T1a_ADOS: 30 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8200_T1a_ADOS_compressed_2: 34 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8204_T1a_ADOS_noncompressed: 22 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8207_T1a_ADOS: 20 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8212_T1a_ADOS: 8 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8216_T1a_ADOS_uncompressed: 28 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8222_T1a_ADOS_compressed: 35 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8244_T1a_ADOS: 25 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8252_BB_18-21m_ADOS_Compressed: 29 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8264_T1a_ADOS_MT: 14 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8288_BB_18-21m_ADOS_compressed: 8 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8294_T1a_CCSA_ADOS: 19 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8295_T1a_ADOS_compressed: 40 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8296_BB_15-18m: 32 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8297_T1a_ADOS: 43 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8298_T2a_ADOS: 15 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8299_T1a_ADOS: 31 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8300_T1a_ADOS_compressed: 18 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8301_T1a_ADOS_Incomplete: 26 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8306_T1a_ADOS_CCSA: 44 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8307_T1a_ADOS_compressed: 36 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8310_T1a_ADOS_noncompressed: 33 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8324_T2a_ADOS_Noncompressed: 11 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8334_T1a_ADOS: 40 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8350_T1a_ADOS: 29 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8355_T1a_ADOS: 20 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8359_T1a_ADOS: 25 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8360_T1a_ADOS: 21 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8372_T1a_ADOS_compressed: 29 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8385_T1a_ADOS_noncompressed: 14 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8387_T1a_ADOS: 27 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8404_T1a_ADOS_NotCompressed: 35 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8420_T1a_ADOS: 40 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8434_T1a_ADOS: 58 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8454_T1a_ADOS_NonCompressed: 30 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8455_T1a_ADOS_Noncompressed: 26 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8462_T1a_ADOS: 25 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8488_T1a_ADOS: 23 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8492_T1a_ADOS_NonCompressed: 20 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8529_T1a_ADOS_Noncompressed: 37 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8561_T1a_ADOS: 26 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       8577_T1a_ADOS: 30 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V001: 30 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V002: 34 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V003: 23 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V004: 22 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V005: 24 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V007: 28 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V008: 35 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V009: 22 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V010: 30 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V011: 46 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V012: 37 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V013: 35 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V014: 34 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V015: 14 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V016: 35 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V017: 25 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V018: 51 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V019: 38 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V020: 39 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V021: 51 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V022: 37 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V023: 41 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V024: 19 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V025: 35 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V026: 44 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V027: 34 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V028: 34 segment(s)
+09:03:45  ccnEvaluation.src.loading  INFO       V029: 40 segment(s)
+09:03:46  ccnEvaluation.src.loading  INFO     Computing features for 102 subjects (n_jobs=16) …
+Computing features:   0%|          | 0/102 [00:00<?, ?it/s]Computing features:  31%|███▏      | 32/102 [00:16<00:36,  1.94it/s]/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:90: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:91: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+Computing features:  47%|████▋     | 48/102 [01:40<02:14,  2.49s/it]Computing features:  48%|████▊     | 49/102 [01:40<02:08,  2.42s/it]Computing features:  63%|██████▎   | 64/102 [02:43<02:00,  3.17s/it]/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:90: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:91: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+Computing features:  78%|███████▊  | 80/102 [03:32<01:08,  3.13s/it]Computing features:  94%|█████████▍| 96/102 [04:19<00:18,  3.06s/it]Computing features: 100%|██████████| 102/102 [04:19<00:00,  2.54s/it]
+09:09:52  ccnEvaluation.src.loading  INFO     Feature matrix: 102 subjects × 563 feature columns
+09:09:52  ccnEvaluation.src.loading  INFO     Clinical CSV: 119 subjects with ASD/TD diagnosis
+09:09:52  ccnEvaluation.src.loading  INFO     Found 452 segment directories in /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/test
+09:09:52  ccnEvaluation.src.loading  INFO     Grouped into 17 video/subject IDs:
+09:09:52  ccnEvaluation.src.loading  INFO       7772_T2a_ADOS: 27 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8029_T1a_ADOS: 35 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8075_T2a_ADOS: 29 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8117_T2a_ADOS: 21 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8127_T1a_ADOS: 41 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8146_T1a_ADOS: 6 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8187_T2a_ADOS_M1: 25 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8211_T1a_ADOS_compressed: 22 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8225_T1a_ADOS: 22 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8234_BB_18-21m_ADOS_compressed: 26 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8249_T1a_ADOS: 12 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8253_T1a_ADOS: 24 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8256_T1a_ADOS: 33 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8279_T1a_ADOS: 32 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8311_T2a_ADOS: 30 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8318_T1a_ADOS: 41 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO       8378_T1a_ADOS: 26 segment(s)
+09:09:52  ccnEvaluation.src.loading  INFO     Computing features for 17 subjects (n_jobs=16) …
+Computing features:   0%|          | 0/17 [00:00<?, ?it/s]Computing features: 100%|██████████| 17/17 [00:00<00:00, 23673.03it/s]
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:90: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:91: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+09:11:09  ccnEvaluation.src.loading  INFO     Feature matrix: 17 subjects × 563 feature columns
+09:11:09  ccnEvaluation         INFO       Train: 102 × 574 features
+09:11:09  ccnEvaluation         INFO       Test:  17 × 574 features
+09:11:09  ccnEvaluation         INFO     Skipping embedding representation (--skip-embedding)
+09:11:09  ccnEvaluation         INFO     ═══ Representation: motor_only ═══
+09:11:09  ccnEvaluation         INFO       Features for motor_only: 508 columns
+09:11:09  ccnEvaluation         INFO     ═══ Step 2: Preprocessing report ═══
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/run_pipeline.py", line 387, in <module>
+    main()
+  File "/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/run_pipeline.py", line 338, in main
+    _step2_preprocessing_report(df_train, feature_cols, rep_out)
+  File "/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/run_pipeline.py", line 160, in _step2_preprocessing_report
+    generate_feature_selection_report(X, output_dir, feature_cols)
+  File "/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/preprocessing.py", line 323, in generate_feature_selection_report
+    feature_names = np.array(X.columns.tolist())
+                             ^^^^^^^^^
+AttributeError: 'numpy.ndarray' object has no attribute 'columns'
+SLURM job 7254448 finished with exit code 1

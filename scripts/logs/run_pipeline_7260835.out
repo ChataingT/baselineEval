@@ -1,0 +1,560 @@
+19:21:36  ccnEvaluation         INFO     ccnEvaluation prediction pipeline started
+19:21:36  ccnEvaluation         INFO       CSV:           /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/info/child_for_humanlisbet_paper_with_paths_020326.csv
+19:21:36  ccnEvaluation         INFO       Pose (train):  /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/train
+19:21:36  ccnEvaluation         INFO       Pose (test):   /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/test
+19:21:36  ccnEvaluation         INFO       Output:        /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results
+19:21:36  ccnEvaluation         INFO     ═══ Step 1: Feature extraction ═══
+19:21:36  ccnEvaluation.src.loading  INFO     Clinical CSV: 119 subjects with ASD/TD diagnosis
+19:21:37  ccnEvaluation.src.loading  INFO     Found 2974 segment directories in /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/train
+19:21:37  ccnEvaluation.src.loading  INFO     Grouped into 102 video/subject IDs:
+19:21:37  ccnEvaluation.src.loading  INFO       7797_T1a_ADOS1: 6 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       7892_T2a_ADOS: 34 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       7947_T1a_ADOS: 18 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       7953_T1a_ADOS: 18 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       7954_T2a_ADOS: 19 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       7965_T2a_ADOS: 33 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       7978_T1a_ADOS: 33 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8002_T3_ADOS_scaled: 3 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8017_BB_12_15m_ADOS: 28 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8018_T1a_ADOS: 20 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8019_T1a_ADOS: 16 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8031_T1a_ADOS_noncompressed: 34 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8042_T2a_ADOS: 35 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8046_T2a_ADOS_compressed: 25 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8054_ADOS_T2a: 33 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8072_T1a_ADOS: 21 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8073_T1a_ADOS_compressed: 22 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8090_T2a_ADOS: 27 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8100_T2a_ADOS: 12 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8101_T2a_ADOS: 31 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8104_T2a_ADOS: 33 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8121_T2a_ADOS_M1_compressed: 45 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8137_T2a_ADOS_compressed: 31 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8141_T1a_ADOS: 44 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8149_T1a_ADOS_noncompressed: 24 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8154_T1a_ADOS: 41 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8156_T1a_ADOS: 26 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8157_T1a_ADOS: 25 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8158_T1a_ADOS_compressed: 54 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8165_BB_18-21m_ADOS_compressed: 38 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8183_T2a_ADOS: 35 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8185_T1a_ADOS: 17 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8188_T1a_ADOS: 30 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8200_T1a_ADOS_compressed_2: 34 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8204_T1a_ADOS_noncompressed: 22 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8207_T1a_ADOS: 20 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8212_T1a_ADOS: 8 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8216_T1a_ADOS_uncompressed: 28 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8222_T1a_ADOS_compressed: 35 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8244_T1a_ADOS: 25 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8252_BB_18-21m_ADOS_Compressed: 29 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8264_T1a_ADOS_MT: 14 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8288_BB_18-21m_ADOS_compressed: 8 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8294_T1a_CCSA_ADOS: 19 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8295_T1a_ADOS_compressed: 40 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8296_BB_15-18m: 32 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8297_T1a_ADOS: 43 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8298_T2a_ADOS: 15 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8299_T1a_ADOS: 31 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8300_T1a_ADOS_compressed: 18 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8301_T1a_ADOS_Incomplete: 26 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8306_T1a_ADOS_CCSA: 44 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8307_T1a_ADOS_compressed: 36 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8310_T1a_ADOS_noncompressed: 33 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8324_T2a_ADOS_Noncompressed: 11 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8334_T1a_ADOS: 40 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8350_T1a_ADOS: 29 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8355_T1a_ADOS: 20 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8359_T1a_ADOS: 25 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8360_T1a_ADOS: 21 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8372_T1a_ADOS_compressed: 29 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8385_T1a_ADOS_noncompressed: 14 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8387_T1a_ADOS: 27 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8404_T1a_ADOS_NotCompressed: 35 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8420_T1a_ADOS: 40 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8434_T1a_ADOS: 58 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8454_T1a_ADOS_NonCompressed: 30 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8455_T1a_ADOS_Noncompressed: 26 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8462_T1a_ADOS: 25 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8488_T1a_ADOS: 23 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8492_T1a_ADOS_NonCompressed: 20 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8529_T1a_ADOS_Noncompressed: 37 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8561_T1a_ADOS: 26 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       8577_T1a_ADOS: 30 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V001: 30 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V002: 34 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V003: 23 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V004: 22 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V005: 24 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V007: 28 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V008: 35 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V009: 22 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V010: 30 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V011: 46 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V012: 37 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V013: 35 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V014: 34 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V015: 14 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V016: 35 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V017: 25 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V018: 51 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V019: 38 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V020: 39 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V021: 51 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V022: 37 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V023: 41 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V024: 19 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V025: 35 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V026: 44 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V027: 34 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V028: 34 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO       V029: 40 segment(s)
+19:21:37  ccnEvaluation.src.loading  INFO     Computing features for 102 subjects (n_jobs=16) …
+Computing features:   0%|          | 0/102 [00:00<?, ?it/s]Computing features:  16%|█▌        | 16/102 [00:00<00:00, 126.28it/s]Computing features:  31%|███▏      | 32/102 [00:17<00:45,  1.55it/s] /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:90: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:91: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+Computing features:  47%|████▋     | 48/102 [01:20<01:55,  2.13s/it]Computing features:  63%|██████▎   | 64/102 [01:57<01:23,  2.21s/it]/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:90: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:91: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+Computing features:  78%|███████▊  | 80/102 [02:37<00:50,  2.32s/it]Computing features:  94%|█████████▍| 96/102 [03:08<00:13,  2.19s/it]Computing features: 100%|██████████| 102/102 [03:08<00:00,  1.85s/it]
+19:26:29  ccnEvaluation.src.loading  INFO     Feature matrix: 102 subjects × 563 feature columns
+19:26:29  ccnEvaluation.src.loading  INFO     Clinical CSV: 119 subjects with ASD/TD diagnosis
+19:26:29  ccnEvaluation.src.loading  INFO     Found 452 segment directories in /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/test
+19:26:29  ccnEvaluation.src.loading  INFO     Grouped into 17 video/subject IDs:
+19:26:29  ccnEvaluation.src.loading  INFO       7772_T2a_ADOS: 27 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8029_T1a_ADOS: 35 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8075_T2a_ADOS: 29 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8117_T2a_ADOS: 21 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8127_T1a_ADOS: 41 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8146_T1a_ADOS: 6 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8187_T2a_ADOS_M1: 25 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8211_T1a_ADOS_compressed: 22 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8225_T1a_ADOS: 22 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8234_BB_18-21m_ADOS_compressed: 26 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8249_T1a_ADOS: 12 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8253_T1a_ADOS: 24 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8256_T1a_ADOS: 33 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8279_T1a_ADOS: 32 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8311_T2a_ADOS: 30 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8318_T1a_ADOS: 41 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO       8378_T1a_ADOS: 26 segment(s)
+19:26:29  ccnEvaluation.src.loading  INFO     Computing features for 17 subjects (n_jobs=16) …
+Computing features:   0%|          | 0/17 [00:00<?, ?it/s]Computing features: 100%|██████████| 17/17 [00:00<00:00, 23401.11it/s]
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:90: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/src/loading.py:91: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+19:27:40  ccnEvaluation.src.loading  INFO     Feature matrix: 17 subjects × 563 feature columns
+19:27:40  ccnEvaluation         INFO       Train (kinematic): 102 × 574
+19:27:40  ccnEvaluation         INFO       Test  (kinematic): 17 × 574
+19:27:40  ccnEvaluation         INFO     ═══ Step 1b: Embedding feature extraction ═══
+19:27:42  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7772 (prefix=7772) — skipping.
+19:27:44  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7904 (prefix=7904) — skipping.
+19:27:51  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7982 (prefix=7982) — skipping.
+19:27:55  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8029 (prefix=8029) — skipping.
+19:28:01  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8055 (prefix=8055) — skipping.
+19:28:01  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8058 (prefix=8058) — skipping.
+19:28:01  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8062 (prefix=8062) — skipping.
+19:28:01  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8064 (prefix=8064) — skipping.
+19:28:03  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8075 (prefix=8075) — skipping.
+19:28:03  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8080 (prefix=8080) — skipping.
+19:28:03  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8081 (prefix=8081) — skipping.
+19:28:03  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8089 (prefix=8089) — skipping.
+19:28:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8109 (prefix=8109) — skipping.
+19:28:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8112 (prefix=8112) — skipping.
+19:28:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8117 (prefix=8117) — skipping.
+19:28:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8124 (prefix=8124) — skipping.
+19:28:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8127 (prefix=8127) — skipping.
+19:28:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8133 (prefix=8133) — skipping.
+19:28:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8140 (prefix=8140) — skipping.
+19:28:12  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8146 (prefix=8146) — skipping.
+19:28:21  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8171 (prefix=8171) — skipping.
+19:28:21  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8178 (prefix=8178) — skipping.
+19:28:24  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8187 (prefix=8187) — skipping.
+19:28:27  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8201 (prefix=8201) — skipping.
+19:28:28  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8205 (prefix=8205) — skipping.
+19:28:28  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8211 (prefix=8211) — skipping.
+19:28:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8218 (prefix=8218) — skipping.
+19:28:32  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8225 (prefix=8225) — skipping.
+19:28:32  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8228 (prefix=8228) — skipping.
+19:28:32  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8234 (prefix=8234) — skipping.
+19:28:33  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8246 (prefix=8246) — skipping.
+19:28:33  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8249 (prefix=8249) — skipping.
+19:28:34  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8253 (prefix=8253) — skipping.
+19:28:34  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8256 (prefix=8256) — skipping.
+19:28:35  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8271 (prefix=8271) — skipping.
+19:28:35  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8279 (prefix=8279) — skipping.
+19:28:35  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8281 (prefix=8281) — skipping.
+19:28:48  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8311 (prefix=8311) — skipping.
+19:28:48  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8318 (prefix=8318) — skipping.
+19:28:48  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8333 (prefix=8333) — skipping.
+19:28:49  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8335 (prefix=8335) — skipping.
+19:28:49  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8344 (prefix=8344) — skipping.
+19:28:49  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8345 (prefix=8345) — skipping.
+19:28:49  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8349 (prefix=8349) — skipping.
+19:28:54  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8378 (prefix=8378) — skipping.
+19:29:07  ccnEvaluation.src.loading  WARNING  45 subject(s) had no embedding data and were excluded.
+19:29:07  ccnEvaluation.src.loading  INFO     Embedding DataFrame: 74 subjects × 1408 embedding features
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7797 (prefix=7797) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7892 (prefix=7892) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7904 (prefix=7904) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7947 (prefix=7947) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7953 (prefix=7953) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7954 (prefix=7954) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7965 (prefix=7965) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7978 (prefix=7978) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=7982 (prefix=7982) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8002 (prefix=8002) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8017 (prefix=8017) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8018 (prefix=8018) — skipping.
+19:29:09  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8019 (prefix=8019) — skipping.
+19:29:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8031 (prefix=8031) — skipping.
+19:29:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8042 (prefix=8042) — skipping.
+19:29:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8046 (prefix=8046) — skipping.
+19:29:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8054 (prefix=8054) — skipping.
+19:29:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8055 (prefix=8055) — skipping.
+19:29:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8058 (prefix=8058) — skipping.
+19:29:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8062 (prefix=8062) — skipping.
+19:29:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8064 (prefix=8064) — skipping.
+19:29:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8072 (prefix=8072) — skipping.
+19:29:10  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8073 (prefix=8073) — skipping.
+19:29:12  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8080 (prefix=8080) — skipping.
+19:29:12  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8081 (prefix=8081) — skipping.
+19:29:12  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8089 (prefix=8089) — skipping.
+19:29:12  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8090 (prefix=8090) — skipping.
+19:29:12  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8100 (prefix=8100) — skipping.
+19:29:12  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8101 (prefix=8101) — skipping.
+19:29:12  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8104 (prefix=8104) — skipping.
+19:29:12  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8109 (prefix=8109) — skipping.
+19:29:12  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8112 (prefix=8112) — skipping.
+19:29:14  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8121 (prefix=8121) — skipping.
+19:29:14  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8124 (prefix=8124) — skipping.
+19:29:16  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8133 (prefix=8133) — skipping.
+19:29:16  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8137 (prefix=8137) — skipping.
+19:29:16  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8140 (prefix=8140) — skipping.
+19:29:16  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8141 (prefix=8141) — skipping.
+19:29:17  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8149 (prefix=8149) — skipping.
+19:29:17  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8154 (prefix=8154) — skipping.
+19:29:17  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8156 (prefix=8156) — skipping.
+19:29:17  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8157 (prefix=8157) — skipping.
+19:29:17  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8158 (prefix=8158) — skipping.
+19:29:17  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8165 (prefix=8165) — skipping.
+19:29:17  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8171 (prefix=8171) — skipping.
+19:29:17  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8178 (prefix=8178) — skipping.
+19:29:17  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8183 (prefix=8183) — skipping.
+19:29:17  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8185 (prefix=8185) — skipping.
+19:29:18  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8188 (prefix=8188) — skipping.
+19:29:18  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8200 (prefix=8200) — skipping.
+19:29:18  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8201 (prefix=8201) — skipping.
+19:29:18  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8204 (prefix=8204) — skipping.
+19:29:18  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8205 (prefix=8205) — skipping.
+19:29:18  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8207 (prefix=8207) — skipping.
+19:29:19  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8212 (prefix=8212) — skipping.
+19:29:19  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8216 (prefix=8216) — skipping.
+19:29:19  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8218 (prefix=8218) — skipping.
+19:29:19  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8222 (prefix=8222) — skipping.
+19:29:21  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8228 (prefix=8228) — skipping.
+19:29:22  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8244 (prefix=8244) — skipping.
+19:29:22  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8246 (prefix=8246) — skipping.
+19:29:23  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8252 (prefix=8252) — skipping.
+19:29:25  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8264 (prefix=8264) — skipping.
+19:29:25  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8271 (prefix=8271) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8281 (prefix=8281) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8288 (prefix=8288) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8294 (prefix=8294) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8295 (prefix=8295) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8296 (prefix=8296) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8297 (prefix=8297) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8298 (prefix=8298) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8299 (prefix=8299) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8300 (prefix=8300) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8301 (prefix=8301) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8306 (prefix=8306) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8307 (prefix=8307) — skipping.
+19:29:26  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8310 (prefix=8310) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8324 (prefix=8324) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8333 (prefix=8333) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8334 (prefix=8334) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8335 (prefix=8335) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8344 (prefix=8344) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8345 (prefix=8345) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8349 (prefix=8349) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8350 (prefix=8350) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8355 (prefix=8355) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8359 (prefix=8359) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8360 (prefix=8360) — skipping.
+19:29:30  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8372 (prefix=8372) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8385 (prefix=8385) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8387 (prefix=8387) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8404 (prefix=8404) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8420 (prefix=8420) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8434 (prefix=8434) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8454 (prefix=8454) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8455 (prefix=8455) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8462 (prefix=8462) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8488 (prefix=8488) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8492 (prefix=8492) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8529 (prefix=8529) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8561 (prefix=8561) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  No embedding folders found for sujet_id=8577 (prefix=8577) — skipping.
+19:29:31  ccnEvaluation.src.loading  WARNING  102 subject(s) had no embedding data and were excluded.
+19:29:32  ccnEvaluation.src.loading  INFO     Embedding DataFrame: 17 subjects × 1408 embedding features
+19:29:32  ccnEvaluation         INFO       Train (embedding): 74 × 1419
+19:29:32  ccnEvaluation         INFO       Test  (embedding): 17 × 1419
+19:29:32  ccnEvaluation         INFO     ═══ Representation: motor_only ═══
+19:29:32  ccnEvaluation         INFO       Features for motor_only: 508 columns
+19:29:32  ccnEvaluation         INFO     ═══ Step 2: Preprocessing report ═══
+19:29:32  ccnEvaluation.src.preprocessing  INFO     Feature selection (full dataset): 508 features → 279 kept (4 missingness, 9 near-zero-var, 216 correlated)
+19:29:32  ccnEvaluation.src.preprocessing  INFO     Feature selection report → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/feature_selection_report.csv
+19:29:38  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance data → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/pca_explained_variance.csv
+19:29:39  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance plot → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/pca_explained_variance.png
+19:29:39  ccnEvaluation         INFO     ── CV for diagnosis (classification) ──
+19:29:39  ccnEvaluation         INFO       X: (102, 510), y: (102,) (classes: [0 1])
+19:29:47  ccnEvaluation.src.cross_validation  INFO     Classification CV: 2 models, 5×10 nested CV (50 total outer folds)
+19:33:08  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+19:33:08  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/classification/diagnosis/cv_results.csv
+19:33:08  ccnEvaluation.src.cross_validation  INFO     
+── Classification AUC-ROC summary (diagnosis) ──
+model  auc_mean  auc_std
+lasso  0.804218 0.104153
+ lgbm  0.753493 0.112034
+19:33:08  ccnEvaluation         INFO     ── Held-out for diagnosis (classification) ──
+19:33:08  ccnEvaluation.src.held_out  INFO     Best classification model: lasso (AUC=0.8042 ± 0.1042)
+19:33:12  ccnEvaluation.src.held_out  INFO     Held-out classification (diagnosis): model=lasso AUC=0.886 BAcc=0.807 Acc=0.824 [0.566, 0.962]
+19:33:12  ccnEvaluation         INFO     ── CV for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression) ──
+19:33:12  ccnEvaluation         INFO       X: (102, 510), y: (102,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  8.  9. 10.])
+19:33:12  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+19:36:24  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+19:36:24  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/regression/ADOS_G_ADOS_2_TOTAL_score_de_severite/cv_results.csv
+19:36:24  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_G_ADOS_2_TOTAL_score_de_severite) ──
+model     rmse       r2  spearman_r
+lasso 2.788873 0.292672    0.575401
+ lgbm 2.985540 0.193224    0.475995
+19:36:24  ccnEvaluation         INFO     ── Held-out for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression) ──
+19:36:24  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.7889 ± 0.3578)
+19:36:30  ccnEvaluation.src.held_out  INFO     Held-out regression (ADOS_G_ADOS_2_TOTAL_score_de_severite): model=lasso RMSE=2.802 [1.948, 3.596] R²=0.361 [-0.094, 0.668] ρ=0.511
+19:36:30  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression) ──
+19:36:30  ccnEvaluation         INFO       X: (102, 510), y: (102,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  9. 10.])
+19:36:30  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+19:39:40  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+19:39:41  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/regression/ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE/cv_results.csv
+19:39:41  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE) ──
+model     rmse       r2  spearman_r
+lasso 2.612511 0.264347    0.510079
+ lgbm 2.822531 0.139518    0.407504
+19:39:41  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression) ──
+19:39:41  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.6125 ± 0.3221)
+19:39:45  ccnEvaluation.src.held_out  INFO     Held-out regression (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE): model=lasso RMSE=2.458 [1.442, 3.302] R²=0.266 [-0.523, 0.720] ρ=0.562
+19:39:45  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression) ──
+19:39:45  ccnEvaluation         INFO       X: (102, 510), y: (102,) (classes: [ 1.  5.  6.  7.  8.  9. 10.])
+19:39:45  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+19:42:56  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+19:42:56  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/motor_only/regression/ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new/cv_results.csv
+19:42:56  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new) ──
+model     rmse       r2  spearman_r
+lasso 2.835501 0.178780    0.538131
+ lgbm 2.873523 0.149342    0.439775
+19:42:56  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression) ──
+19:42:56  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.8355 ± 0.3765)
+19:43:00  ccnEvaluation.src.held_out  INFO     Held-out regression (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new): model=lasso RMSE=3.157 [1.702, 4.341] R²=0.297 [-0.362, 0.740] ρ=0.511
+19:43:00  ccnEvaluation         INFO     ═══ Representation: full_kinematic ═══
+19:43:00  ccnEvaluation         INFO       Features for full_kinematic: 563 columns
+19:43:00  ccnEvaluation         INFO     ═══ Step 2: Preprocessing report ═══
+19:43:01  ccnEvaluation.src.preprocessing  INFO     Feature selection (full dataset): 563 features → 324 kept (5 missingness, 9 near-zero-var, 225 correlated)
+19:43:01  ccnEvaluation.src.preprocessing  INFO     Feature selection report → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/feature_selection_report.csv
+19:43:05  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance data → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/pca_explained_variance.csv
+19:43:06  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance plot → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/pca_explained_variance.png
+19:43:06  ccnEvaluation         INFO     ── CV for diagnosis (classification) ──
+19:43:06  ccnEvaluation         INFO       X: (102, 565), y: (102,) (classes: [0 1])
+19:43:06  ccnEvaluation.src.cross_validation  INFO     Classification CV: 2 models, 5×10 nested CV (50 total outer folds)
+19:47:07  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+19:47:07  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/classification/diagnosis/cv_results.csv
+19:47:07  ccnEvaluation.src.cross_validation  INFO     
+── Classification AUC-ROC summary (diagnosis) ──
+model  auc_mean  auc_std
+lasso  0.780688 0.114730
+ lgbm  0.768564 0.103758
+19:47:07  ccnEvaluation         INFO     ── Held-out for diagnosis (classification) ──
+19:47:07  ccnEvaluation.src.held_out  INFO     Best classification model: lasso (AUC=0.7807 ± 0.1147)
+19:47:11  ccnEvaluation.src.held_out  INFO     Held-out classification (diagnosis): model=lasso AUC=0.857 BAcc=0.757 Acc=0.765 [0.501, 0.932]
+19:47:11  ccnEvaluation         INFO     ── CV for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression) ──
+19:47:11  ccnEvaluation         INFO       X: (102, 565), y: (102,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  8.  9. 10.])
+19:47:11  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+19:51:10  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+19:51:10  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/regression/ADOS_G_ADOS_2_TOTAL_score_de_severite/cv_results.csv
+19:51:10  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_G_ADOS_2_TOTAL_score_de_severite) ──
+model     rmse       r2  spearman_r
+lasso 2.715222 0.329639    0.623191
+ lgbm 2.900819 0.235348    0.512730
+19:51:10  ccnEvaluation         INFO     ── Held-out for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression) ──
+19:51:10  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.7152 ± 0.3591)
+19:51:14  ccnEvaluation.src.held_out  INFO     Held-out regression (ADOS_G_ADOS_2_TOTAL_score_de_severite): model=lasso RMSE=2.880 [2.026, 3.631] R²=0.325 [-0.135, 0.636] ρ=0.512
+19:51:14  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression) ──
+19:51:14  ccnEvaluation         INFO       X: (102, 565), y: (102,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  9. 10.])
+19:51:14  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+19:55:13  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+19:55:13  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/regression/ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE/cv_results.csv
+19:55:13  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE) ──
+model     rmse       r2  spearman_r
+lasso 2.530358 0.311096    0.576512
+ lgbm 2.631019 0.258168    0.500942
+19:55:13  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression) ──
+19:55:13  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.5304 ± 0.2884)
+19:55:17  ccnEvaluation.src.held_out  INFO     Held-out regression (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE): model=lasso RMSE=2.635 [1.602, 3.443] R²=0.157 [-0.700, 0.644] ρ=0.576
+19:55:17  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression) ──
+19:55:17  ccnEvaluation         INFO       X: (102, 565), y: (102,) (classes: [ 1.  5.  6.  7.  8.  9. 10.])
+19:55:17  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+19:59:17  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+19:59:17  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/full_kinematic/regression/ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new/cv_results.csv
+19:59:17  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new) ──
+model     rmse       r2  spearman_r
+lasso 2.883088 0.153260    0.510552
+ lgbm 2.883733 0.143313    0.442048
+19:59:17  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression) ──
+19:59:17  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.8831 ± 0.4185)
+19:59:21  ccnEvaluation.src.held_out  INFO     Held-out regression (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new): model=lasso RMSE=2.969 [1.994, 3.813] R²=0.378 [-0.091, 0.651] ρ=0.630
+19:59:21  ccnEvaluation         INFO     ═══ Representation: embedding ═══
+19:59:21  ccnEvaluation         INFO       Features for embedding: 1408 columns
+19:59:21  ccnEvaluation         INFO     ═══ Step 2: Preprocessing report ═══
+19:59:23  ccnEvaluation.src.preprocessing  INFO     Feature selection (full dataset): 1408 features → 1108 kept (0 missingness, 0 near-zero-var, 300 correlated)
+19:59:23  ccnEvaluation.src.preprocessing  INFO     Feature selection report → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/feature_selection_report.csv
+19:59:25  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance data → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/pca_explained_variance.csv
+19:59:25  ccnEvaluation.src.preprocessing  INFO     PCA explained-variance plot → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/pca_explained_variance.png
+19:59:25  ccnEvaluation         INFO     ── CV for diagnosis (classification) ──
+19:59:25  ccnEvaluation         INFO       X: (74, 1410), y: (74,) (classes: [0 1])
+19:59:25  ccnEvaluation.src.cross_validation  INFO     Classification CV: 2 models, 5×10 nested CV (50 total outer folds)
+/home/shares/schaerm/schaer2/thibaut/humanlisbet/lisbet_venv/lib/python3.12/site-packages/joblib/externals/loky/process_executor.py:782: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
+  warnings.warn(
+20:25:41  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+20:25:41  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/classification/diagnosis/cv_results.csv
+20:25:41  ccnEvaluation.src.cross_validation  INFO     
+── Classification AUC-ROC summary (diagnosis) ──
+model  auc_mean  auc_std
+lasso  0.744087 0.103688
+ lgbm  0.675417 0.129257
+20:25:41  ccnEvaluation         INFO     ── Held-out for diagnosis (classification) ──
+20:25:41  ccnEvaluation.src.held_out  INFO     Best classification model: lasso (AUC=0.7441 ± 0.1037)
+20:25:45  ccnEvaluation.src.held_out  INFO     Held-out classification (diagnosis): model=lasso AUC=0.614 BAcc=0.636 Acc=0.647 [0.383, 0.858]
+20:25:45  ccnEvaluation         INFO     ── CV for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression) ──
+20:25:45  ccnEvaluation         INFO       X: (74, 1410), y: (74,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  8.  9. 10.])
+20:25:45  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+20:51:46  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+20:51:46  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/regression/ADOS_G_ADOS_2_TOTAL_score_de_severite/cv_results.csv
+20:51:46  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_G_ADOS_2_TOTAL_score_de_severite) ──
+model     rmse       r2  spearman_r
+lasso 2.986407 0.226531    0.522092
+ lgbm 3.212979 0.098556    0.339931
+20:51:46  ccnEvaluation         INFO     ── Held-out for ADOS_G_ADOS_2_TOTAL_score_de_severite (regression) ──
+20:51:46  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.9864 ± 0.3431)
+20:51:50  ccnEvaluation.src.held_out  INFO     Held-out regression (ADOS_G_ADOS_2_TOTAL_score_de_severite): model=lasso RMSE=3.536 [2.585, 4.556] R²=-0.017 [-0.655, 0.316] ρ=0.204
+20:51:50  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression) ──
+20:51:50  ccnEvaluation         INFO       X: (74, 1410), y: (74,) (classes: [ 1.  2.  3.  4.  5.  6.  7.  9. 10.])
+20:51:50  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+21:18:02  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+21:18:02  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/regression/ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE/cv_results.csv
+21:18:02  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE) ──
+model    rmse       r2  spearman_r
+lasso 2.82280 0.150278    0.468645
+ lgbm 2.95021 0.066255    0.343870
+21:18:02  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE (regression) ──
+21:18:02  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=2.8228 ± 0.2271)
+21:18:07  ccnEvaluation.src.held_out  INFO     Held-out regression (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE): model=lasso RMSE=2.837 [1.913, 3.791] R²=0.023 [-0.635, 0.392] ρ=0.301
+21:18:07  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression) ──
+21:18:07  ccnEvaluation         INFO       X: (74, 1410), y: (74,) (classes: [ 1.  5.  6.  7.  8.  9. 10.])
+21:18:07  ccnEvaluation.src.cross_validation  INFO     Regression CV: 2 models, 5×10 nested CV (50 total outer folds)
+21:44:16  ccnEvaluation.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+21:44:16  ccnEvaluation.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/embedding/regression/ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new/cv_results.csv
+21:44:16  ccnEvaluation.src.cross_validation  INFO     
+── Regression summary (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new) ──
+model     rmse       r2  spearman_r
+lasso 3.033905 0.187026    0.508671
+ lgbm 3.267404 0.057393    0.379596
+21:44:16  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new (regression) ──
+21:44:16  ccnEvaluation.src.held_out  INFO     Best regression model: lasso (RMSE=3.0339 ± 0.2997)
+21:44:20  ccnEvaluation.src.held_out  INFO     Held-out regression (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new): model=lasso RMSE=3.728 [3.071, 4.368] R²=0.019 [-0.526, 0.149] ρ=0.190
+21:44:20  ccnEvaluation         INFO     ═══ Step 5: Statistical comparison ═══
+21:44:20  ccnEvaluation.src.comparison  INFO       embedding vs full_kinematic (diagnosis, auc_roc): W=421.5, p=0.0371 (p_corr=0.1112), r=0.339 
+21:44:20  ccnEvaluation.src.comparison  INFO       embedding vs motor_only (diagnosis, auc_roc): W=325.5, p=0.0026 (p_corr=0.0078), r=0.489 ***
+21:44:20  ccnEvaluation.src.comparison  INFO       full_kinematic vs motor_only (diagnosis, auc_roc): W=359.5, p=0.0191 (p_corr=0.0572), r=0.389 
+21:44:21  ccnEvaluation.src.comparison  INFO       Saved: /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/comparison/diagnosis/comparison_results.csv
+21:44:21  ccnEvaluation.src.comparison  INFO       embedding vs full_kinematic (ADOS_G_ADOS_2_TOTAL_score_de_severite, rmse): W=258.0, p=0.0001 (p_corr=0.0004), r=0.595 ***
+21:44:21  ccnEvaluation.src.comparison  INFO       embedding vs motor_only (ADOS_G_ADOS_2_TOTAL_score_de_severite, rmse): W=337.0, p=0.0032 (p_corr=0.0096), r=0.471 ***
+21:44:21  ccnEvaluation.src.comparison  INFO       full_kinematic vs motor_only (ADOS_G_ADOS_2_TOTAL_score_de_severite, rmse): W=372.0, p=0.0097 (p_corr=0.0290), r=0.416 ***
+21:44:22  ccnEvaluation.src.comparison  INFO       Saved: /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/comparison/ADOS_G_ADOS_2_TOTAL_score_de_severite/comparison_results.csv
+21:44:22  ccnEvaluation.src.comparison  INFO       embedding vs full_kinematic (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE, rmse): W=171.0, p=0.0000 (p_corr=0.0000), r=0.732 ***
+21:44:22  ccnEvaluation.src.comparison  INFO       embedding vs motor_only (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE, rmse): W=312.0, p=0.0013 (p_corr=0.0040), r=0.511 ***
+21:44:22  ccnEvaluation.src.comparison  INFO       full_kinematic vs motor_only (ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE, rmse): W=297.0, p=0.0017 (p_corr=0.0051), r=0.515 ***
+21:44:23  ccnEvaluation.src.comparison  INFO       Saved: /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/comparison/ADOS_2_ADOS_G_REVISED_SA_SEVERITY_SCORE/comparison_results.csv
+21:44:23  ccnEvaluation.src.comparison  INFO       embedding vs full_kinematic (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new, rmse): W=427.0, p=0.0419 (p_corr=0.1258), r=0.330 
+21:44:23  ccnEvaluation.src.comparison  INFO       embedding vs motor_only (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new, rmse): W=327.0, p=0.0023 (p_corr=0.0068), r=0.487 ***
+21:44:23  ccnEvaluation.src.comparison  INFO       full_kinematic vs motor_only (ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new, rmse): W=484.0, p=0.2861 (p_corr=0.8583), r=0.177 
+21:44:25  ccnEvaluation.src.comparison  INFO       Saved: /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/comparison/ADOS_2_ADOS_G_REVISED_RRB_SEVERITY_SCORE_new/comparison_results.csv
+21:44:25  ccnEvaluation.src.comparison  INFO     All comparisons → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/ccnEvaluation/results/comparison/all_comparison_results.csv
+21:44:25  ccnEvaluation         INFO     ═══ Step 6: Plotting ═══
+21:44:27  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:44:29  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:44:32  ccnEvaluation.src.plotting  INFO       Saved: roc_curves.png + data CSV
+21:44:34  ccnEvaluation.src.plotting  INFO       Saved: confusion_matrices.png + data CSV
+21:44:36  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:44:37  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:44:38  ccnEvaluation.src.plotting  INFO       Saved: roc_curves.png + data CSV
+21:44:39  ccnEvaluation.src.plotting  INFO       Saved: confusion_matrices.png + data CSV
+21:44:40  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:44:41  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:44:42  ccnEvaluation.src.plotting  INFO       Saved: roc_curves.png + data CSV
+21:44:42  ccnEvaluation.src.plotting  INFO       Saved: confusion_matrices.png + data CSV
+21:44:43  ccnEvaluation.src.plotting  INFO       Saved: representation_comparison.png + data CSV
+21:44:43  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:44:45  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:44:46  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+21:44:47  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+21:44:48  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:44:50  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:44:51  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+21:44:53  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+21:44:53  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:44:55  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:44:55  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+21:44:56  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+21:44:57  ccnEvaluation.src.plotting  INFO       Saved: representation_comparison.png + data CSV
+21:44:57  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:44:59  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:44:59  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+21:45:00  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+21:45:01  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:45:03  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:45:03  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+21:45:04  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+21:45:05  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:45:07  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:45:07  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+21:45:08  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+21:45:08  ccnEvaluation.src.plotting  INFO       Saved: representation_comparison.png + data CSV
+21:45:09  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:45:11  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:45:12  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+21:45:13  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+21:45:14  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:45:16  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:45:16  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+21:45:17  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+21:45:18  ccnEvaluation.src.plotting  INFO       Saved: cv_metric_boxplots.png + data CSV
+21:45:20  ccnEvaluation.src.plotting  INFO       Saved: hyperparameter distribution plots + data CSV
+21:45:21  ccnEvaluation.src.plotting  INFO       Saved: pred_vs_actual plots + data CSV
+21:45:22  ccnEvaluation.src.plotting  INFO       Saved: residual plots + data CSV
+21:45:22  ccnEvaluation.src.plotting  INFO       Saved: representation_comparison.png + data CSV
+21:45:22  ccnEvaluation.src.plotting  INFO       Saved: held_out_summary_classification.png + data CSV
+21:45:23  ccnEvaluation.src.plotting  INFO       Saved: held_out_summary_regression.png + data CSV
+21:45:23  ccnEvaluation         INFO     ═══ Step 7: SHAP — skipped (placeholder TODO) ═══
+21:45:23  ccnEvaluation         INFO     Pipeline completed in 8627.9 s (143.8 min)
+SLURM job 7260835 finished with exit code 0

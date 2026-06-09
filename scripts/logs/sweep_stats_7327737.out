@@ -1,0 +1,214 @@
+--stats-kin mean,std,kurtosis,skewness  --stats-emb mean,std → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/results_stats_extended_target
+17:00:16  ccnEvaluation         INFO     ccnEvaluation prediction pipeline started
+17:00:16  ccnEvaluation         INFO       CSV:           /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/info/child_for_humanlisbet_paper_with_paths_020326.csv
+17:00:16  ccnEvaluation         INFO       Pose (train):  /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/train
+17:00:16  ccnEvaluation         INFO       Pose (test):   /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/test
+17:00:16  ccnEvaluation         INFO       Output:        /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/results_stats_extended_target
+17:00:16  ccnEvaluation         INFO     ═══ Step 1: Feature extraction ═══
+17:00:16  ccnEvaluation         INFO     Selected statistics (kinematic): ['mean', 'std', 'kurtosis', 'skewness']
+17:00:16  ccnEvaluation         INFO     Selected statistics (embedding): ['mean', 'std']
+17:00:16  baselineEval.src.loading  INFO     Clinical CSV: 119 subjects with ASD/TD diagnosis
+17:00:20  baselineEval.src.loading  INFO     Found 2974 segment directories in /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/train
+17:00:20  baselineEval.src.loading  INFO     Grouped into 102 video/subject IDs:
+17:00:20  baselineEval.src.loading  INFO       7797_T1a_ADOS1: 6 segment(s)
+17:00:20  baselineEval.src.loading  INFO       7892_T2a_ADOS: 34 segment(s)
+17:00:20  baselineEval.src.loading  INFO       7947_T1a_ADOS: 18 segment(s)
+17:00:20  baselineEval.src.loading  INFO       7953_T1a_ADOS: 18 segment(s)
+17:00:20  baselineEval.src.loading  INFO       7954_T2a_ADOS: 19 segment(s)
+17:00:20  baselineEval.src.loading  INFO       7965_T2a_ADOS: 33 segment(s)
+17:00:20  baselineEval.src.loading  INFO       7978_T1a_ADOS: 33 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8002_T3_ADOS_scaled: 3 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8017_BB_12_15m_ADOS: 28 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8018_T1a_ADOS: 20 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8019_T1a_ADOS: 16 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8031_T1a_ADOS_noncompressed: 34 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8042_T2a_ADOS: 35 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8046_T2a_ADOS_compressed: 25 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8054_ADOS_T2a: 33 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8072_T1a_ADOS: 21 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8073_T1a_ADOS_compressed: 22 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8090_T2a_ADOS: 27 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8100_T2a_ADOS: 12 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8101_T2a_ADOS: 31 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8104_T2a_ADOS: 33 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8121_T2a_ADOS_M1_compressed: 45 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8137_T2a_ADOS_compressed: 31 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8141_T1a_ADOS: 44 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8149_T1a_ADOS_noncompressed: 24 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8154_T1a_ADOS: 41 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8156_T1a_ADOS: 26 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8157_T1a_ADOS: 25 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8158_T1a_ADOS_compressed: 54 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8165_BB_18-21m_ADOS_compressed: 38 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8183_T2a_ADOS: 35 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8185_T1a_ADOS: 17 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8188_T1a_ADOS: 30 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8200_T1a_ADOS_compressed_2: 34 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8204_T1a_ADOS_noncompressed: 22 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8207_T1a_ADOS: 20 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8212_T1a_ADOS: 8 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8216_T1a_ADOS_uncompressed: 28 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8222_T1a_ADOS_compressed: 35 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8244_T1a_ADOS: 25 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8252_BB_18-21m_ADOS_Compressed: 29 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8264_T1a_ADOS_MT: 14 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8288_BB_18-21m_ADOS_compressed: 8 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8294_T1a_CCSA_ADOS: 19 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8295_T1a_ADOS_compressed: 40 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8296_BB_15-18m: 32 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8297_T1a_ADOS: 43 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8298_T2a_ADOS: 15 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8299_T1a_ADOS: 31 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8300_T1a_ADOS_compressed: 18 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8301_T1a_ADOS_Incomplete: 26 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8306_T1a_ADOS_CCSA: 44 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8307_T1a_ADOS_compressed: 36 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8310_T1a_ADOS_noncompressed: 33 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8324_T2a_ADOS_Noncompressed: 11 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8334_T1a_ADOS: 40 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8350_T1a_ADOS: 29 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8355_T1a_ADOS: 20 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8359_T1a_ADOS: 25 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8360_T1a_ADOS: 21 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8372_T1a_ADOS_compressed: 29 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8385_T1a_ADOS_noncompressed: 14 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8387_T1a_ADOS: 27 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8404_T1a_ADOS_NotCompressed: 35 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8420_T1a_ADOS: 40 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8434_T1a_ADOS: 58 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8454_T1a_ADOS_NonCompressed: 30 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8455_T1a_ADOS_Noncompressed: 26 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8462_T1a_ADOS: 25 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8488_T1a_ADOS: 23 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8492_T1a_ADOS_NonCompressed: 20 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8529_T1a_ADOS_Noncompressed: 37 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8561_T1a_ADOS: 26 segment(s)
+17:00:20  baselineEval.src.loading  INFO       8577_T1a_ADOS: 30 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V001: 30 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V002: 34 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V003: 23 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V004: 22 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V005: 24 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V007: 28 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V008: 35 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V009: 22 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V010: 30 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V011: 46 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V012: 37 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V013: 35 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V014: 34 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V015: 14 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V016: 35 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V017: 25 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V018: 51 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V019: 38 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V020: 39 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V021: 51 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V022: 37 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V023: 41 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V024: 19 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V025: 35 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V026: 44 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V027: 34 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V028: 34 segment(s)
+17:00:20  baselineEval.src.loading  INFO       V029: 40 segment(s)
+17:00:20  baselineEval.src.loading  INFO     Computing features for 102 subjects (n_jobs=16) …
+Computing features:   0%|          | 0/102 [00:00<?, ?it/s]Computing features:  31%|███▏      | 32/102 [00:17<00:39,  1.79it/s]/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/src/loading.py:115: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/src/loading.py:116: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+Computing features:  47%|████▋     | 48/102 [01:21<01:47,  1.99s/it]Computing features:  63%|██████▎   | 64/102 [01:57<01:19,  2.08s/it]/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/src/loading.py:115: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/src/loading.py:116: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+Computing features:  78%|███████▊  | 80/102 [02:28<00:44,  2.03s/it]Computing features:  94%|█████████▍| 96/102 [03:01<00:12,  2.04s/it]Computing features: 100%|██████████| 102/102 [03:01<00:00,  1.78s/it]
+17:05:00  baselineEval.src.loading  INFO     Tukey clipping summary (kinematic): mean=4.06%, max=29.84% across 51 metrics
+17:05:00  baselineEval.src.loading  INFO     Feature matrix: 102 subjects × 206 feature columns (+36 meta = 242 total)
+17:05:00  baselineEval.src.loading  INFO     Clinical CSV: 119 subjects with ASD/TD diagnosis
+17:05:01  baselineEval.src.loading  INFO     Found 452 segment directories in /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/dataset/pose_ready/test
+17:05:01  baselineEval.src.loading  INFO     Grouped into 17 video/subject IDs:
+17:05:01  baselineEval.src.loading  INFO       7772_T2a_ADOS: 27 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8029_T1a_ADOS: 35 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8075_T2a_ADOS: 29 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8117_T2a_ADOS: 21 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8127_T1a_ADOS: 41 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8146_T1a_ADOS: 6 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8187_T2a_ADOS_M1: 25 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8211_T1a_ADOS_compressed: 22 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8225_T1a_ADOS: 22 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8234_BB_18-21m_ADOS_compressed: 26 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8249_T1a_ADOS: 12 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8253_T1a_ADOS: 24 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8256_T1a_ADOS: 33 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8279_T1a_ADOS: 32 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8311_T2a_ADOS: 30 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8318_T1a_ADOS: 41 segment(s)
+17:05:01  baselineEval.src.loading  INFO       8378_T1a_ADOS: 26 segment(s)
+17:05:01  baselineEval.src.loading  INFO     Computing features for 17 subjects (n_jobs=16) …
+Computing features:   0%|          | 0/17 [00:00<?, ?it/s]Computing features: 100%|██████████| 17/17 [00:00<00:00, 22736.98it/s]
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/src/loading.py:115: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  skewness = float(scipy_stats.skew(valid_wins, bias=False))
+/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/src/loading.py:116: RuntimeWarning: Precision loss occurred in moment calculation due to catastrophic cancellation. This occurs when the data are nearly identical. Results may be unreliable.
+  kurtosis = float(scipy_stats.kurtosis(valid_wins, bias=False))
+17:06:13  baselineEval.src.loading  INFO     Tukey clipping summary (kinematic): mean=4.17%, max=40.74% across 51 metrics
+17:06:13  baselineEval.src.loading  INFO     Feature matrix: 17 subjects × 206 feature columns (+36 meta = 242 total)
+17:06:13  ccnEvaluation         INFO       Train (kinematic): 102 subjects × 242 total columns
+17:06:13  ccnEvaluation         INFO       Test  (kinematic): 17 subjects × 242 total columns
+17:06:13  ccnEvaluation         INFO     ═══ Step 1b: Embedding feature extraction ═══
+17:10:43  baselineEval.src.loading  INFO     Tukey clipping summary (embedding): mean=0.02%, max=7.86% across 128 dims
+17:10:43  baselineEval.src.loading  INFO     Embedding DataFrame: 102 subjects × 256 embedding features (+36 meta = 292 total)
+17:11:27  baselineEval.src.loading  INFO     Tukey clipping summary (embedding): mean=0.03%, max=6.27% across 128 dims
+17:11:27  baselineEval.src.loading  INFO     Embedding DataFrame: 17 subjects × 256 embedding features (+36 meta = 292 total)
+17:11:27  ccnEvaluation         INFO       Train (embedding): 102 subjects × 292 total columns
+17:11:27  ccnEvaluation         INFO       Test  (embedding): 17 subjects × 292 total columns
+17:11:27  ccnEvaluation         WARNING  Skipping target 'MSEL_GM_DQ': 72 non-null samples (< 90 minimum).
+17:11:27  ccnEvaluation         INFO     ═══ Representation: motor_only ═══
+17:11:27  ccnEvaluation         INFO       Features for motor_only: 186 columns
+17:11:27  ccnEvaluation         INFO     ═══ Step 2: Preprocessing report ═══
+17:11:27  baselineEval.src.preprocessing  INFO     Feature selection (full dataset): 186 features → 131 kept (0 missingness, 0 near-zero-var, 55 correlated)
+17:11:27  baselineEval.src.preprocessing  INFO     Feature selection report → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/results_stats_extended_target/motor_only/feature_selection_report.csv
+17:11:28  baselineEval.src.preprocessing  INFO     PCA explained-variance data → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/results_stats_extended_target/motor_only/pca_explained_variance.csv
+17:11:29  baselineEval.src.preprocessing  INFO     PCA explained-variance plot → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/results_stats_extended_target/motor_only/pca_explained_variance.png
+17:11:29  ccnEvaluation         INFO     ── CV for diagnosis (classification) ──
+17:11:29  ccnEvaluation         INFO       X: (102, 186), y: (102,) (classes: [0 1])
+17:11:33  baselineEval.src.cross_validation  INFO     Classification CV: 2 models, 5×10 nested CV (50 total outer folds)
+17:13:02  baselineEval.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+17:13:02  baselineEval.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/results_stats_extended_target/motor_only/classification/diagnosis/cv_results.csv
+17:13:02  baselineEval.src.cross_validation  INFO     
+── Classification AUC-ROC summary (diagnosis) ──
+model  auc_roc_mean  auc_roc_std
+lasso      0.793069     0.081266
+ lgbm      0.792541     0.096305
+17:13:02  ccnEvaluation         INFO     ── Held-out for diagnosis (classification | motor_only) ──
+17:13:02  baselineEval.src.held_out  INFO     Best classification model: lasso (AUC=0.7931 ± 0.0813)
+17:13:03  baselineEval.src.held_out  INFO     Held-out classification (motor_only | diagnosis): model=lasso AUC=0.800 BAcc=0.757 Acc=0.765 [0.501, 0.932]
+17:13:16  baselineEval.src.plotting  INFO       Saved: shap_bar_top20.png and shap_beeswarm_top20.png
+17:13:16  baselineEval.src.held_out  INFO     SHAP saved → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/results_stats_extended_target/motor_only/held_out/classification/diagnosis/shap
+17:13:16  ccnEvaluation         INFO     ── CV for ADOS_2_ADOS_G_revised_RRB_level_of_symptoms (classification) ──
+17:13:16  ccnEvaluation         INFO       X: (102, 186), y: (102,) (classes: [0 1 2])
+17:13:16  baselineEval.src.cross_validation  INFO     Classification CV: 2 models, 5×10 nested CV (50 total outer folds)
+17:15:24  baselineEval.src.cross_validation  INFO       Saved: predictions_per_subject.csv
+17:15:24  baselineEval.src.cross_validation  INFO       CV results: 100 rows → /srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/results_stats_extended_target/motor_only/classification/ADOS_2_ADOS_G_revised_RRB_level_of_symptoms/cv_results.csv
+17:15:24  baselineEval.src.cross_validation  INFO     
+── Classification F1-macro summary (ADOS_2_ADOS_G_revised_RRB_level_of_symptoms) ──
+model  f1_macro_mean  f1_macro_std
+lasso       0.585429      0.135446
+ lgbm       0.545032      0.118897
+17:15:24  ccnEvaluation         INFO     ── Held-out for ADOS_2_ADOS_G_revised_RRB_level_of_symptoms (classification | motor_only) ──
+17:15:24  baselineEval.src.held_out  INFO     Best classification model: lasso (F1-macro=0.5854 ± 0.1354)
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/src/run_pipeline.py", line 524, in <module>
+    main()
+  File "/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/src/run_pipeline.py", line 494, in main
+    ho_result = _step4_held_out(
+                ^^^^^^^^^^^^^^^^
+  File "/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/src/run_pipeline.py", line 276, in _step4_held_out
+    return evaluate_held_out_classification(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/beegfs/scratch/shares/schaerm/schaer2/video_sam2_pose/humanLISBET-paper/baselineEval/src/held_out.py", line 313, in evaluate_held_out_classification
+    n_correct = int(tp + tn)
+                    ^^
+UnboundLocalError: cannot access local variable 'tp' where it is not associated with a value
+SLURM job 7327737 task  finished with exit code 1

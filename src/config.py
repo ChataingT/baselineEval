@@ -132,7 +132,7 @@ SOCIAL_PREFIXES = (
     "interpersonal_approach",
     "facingness",
     "congruent_motion",
-    "agitation_global_ke",
+    # "agitation_global_ke",
 )
 
 # ── Excluded suffixes ────────────────────────────────────────
